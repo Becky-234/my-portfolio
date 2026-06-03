@@ -12,7 +12,6 @@ import './App.css'
 function App() {
   const [scrolled, setScrolled] = useState(false)
   const [showWelcome, setShowWelcome] = useState(true)
-  const [scrollProgress, setScrollProgress] = useState(0)
   const shootingStarInterval = useRef(null)
 
   useEffect(() => {
@@ -22,26 +21,19 @@ function App() {
       } else {
         setScrolled(false)
       }
-      
-      const winScroll = document.documentElement.scrollTop
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight
-      const scrolledPercent = (winScroll / height) * 100
-      setScrollProgress(scrolledPercent)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Optimized shooting stars effect with fewer stars and cleanup
+  // Optimized shooting stars effect
   useEffect(() => {
-    // Don't run if welcome screen is showing
     if (showWelcome) return
 
     let activeStars = []
     
     const createShootingStar = () => {
-      // Limit number of stars on screen at once
       if (activeStars.length > 5) return
       
       const star = document.createElement('div')
@@ -49,7 +41,7 @@ function App() {
       star.style.position = 'fixed'
       star.style.left = Math.random() * window.innerWidth + 'px'
       star.style.top = '-20px'
-      star.style.fontSize = '16px' // Smaller size for better performance
+      star.style.fontSize = '16px'
       star.style.opacity = '0.6'
       star.style.pointerEvents = 'none'
       star.style.zIndex = '9999'
@@ -67,14 +59,12 @@ function App() {
       }, 3000)
     }
     
-    // Longer interval between stars for better performance
     shootingStarInterval.current = setInterval(createShootingStar, 8000)
     
     return () => {
       if (shootingStarInterval.current) {
         clearInterval(shootingStarInterval.current)
       }
-      // Clean up all stars on unmount
       activeStars.forEach(star => {
         if (star && star.remove) star.remove()
       })
@@ -84,8 +74,6 @@ function App() {
 
   return (
     <div className="app galaxy-container">
-      <div className="scroll-progress" style={{ width: `${scrollProgress}%` }}></div>
-      
       {showWelcome && <Welcome setShowWelcome={setShowWelcome} />}
       
       <div className="stars"></div>

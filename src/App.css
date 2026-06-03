@@ -120,15 +120,3 @@ html {
   transform: translateY(0);
 }
 
-/* Scroll progress bar */
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 3px;
-  background: linear-gradient(90deg, #7b68ee, #b8a8ff, #7b68ee);
-  z-index: 10000;
-  transition: width 0.1s ease-out;
-  box-shadow: 0 0 10px rgba(123, 104, 238, 0.5);
-}
