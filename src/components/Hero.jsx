@@ -1,5 +1,5 @@
 import React from 'react'
-import mineImage from '../assets/mine.jpg'
+import mineImage from '../assets/me.png'
 import { FiFolder, FiAward, FiCpu } from 'react-icons/fi'
 
 function Hero() {
