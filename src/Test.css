@@ -1,0 +1,8 @@
+.test-container {
+  background: linear-gradient(135deg, #005573 0%, #072f47 100%);
+  color: white;
+  padding: 50px;
+  text-align: center;
+  margin: 20px;
+  border-radius: 10px;
+}
