@@ -1,40 +1,49 @@
 import React from 'react'
 import mineImage from '../assets/mine.jpg'
-import { FiFolder, FiAward, FiCpu } from 'react-icons/fi'
+import { FiFolder, FiAward } from 'react-icons/fi'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 function Hero() {
+  const imageRef   = useScrollReveal({ threshold: 0.2 })
+  const greetRef   = useScrollReveal({ threshold: 0.2 })
+  const nameRef    = useScrollReveal({ threshold: 0.2 })
+  const titleRef   = useScrollReveal({ threshold: 0.2 })
+  const mottoRef   = useScrollReveal({ threshold: 0.2 })
+  const ctaRef     = useScrollReveal({ threshold: 0.2 })
+  const statsRef   = useScrollReveal({ threshold: 0.2 })
+
   return (
     <section id="hero" className="introContainer">
       <div className="intro">
-        <img 
-          src={mineImage} 
-          alt="Rebecca Kirabo" 
-          className="hero-image"
+
+        <img
+          ref={imageRef}
+          src={mineImage}
+          alt="Rebecca Kirabo"
+          className="hero-image reveal reveal-left"
         />
+
         <div className="head">
-          <h3 className="hero-h3">Hello, I'm</h3>
-          <h1 className="hero-h1">KIRABO REBECCA</h1>
-          <h2 className="hero-major">Frontend Developer</h2>
-          
-          <div className="motto-container">
+          <h3 ref={greetRef} className="hero-h3 reveal">Hello, I'm</h3>
+          <h1 ref={nameRef}  className="hero-h1 reveal" style={{ transitionDelay: '0.1s' }}>KIRABO REBECCA</h1>
+          <h2 ref={titleRef} className="hero-major reveal" style={{ transitionDelay: '0.2s' }}>Frontend Developer</h2>
+
+          <div ref={mottoRef} className="motto-container reveal" style={{ transitionDelay: '0.3s' }}>
             <p className="motto-text">Building beautiful, accessible web experiences that make a difference</p>
             <p className="motto-sub">Code with purpose • Design with passion • Create with impact</p>
           </div>
 
-          <a href="#contact" className="cta-button">
+          <a ref={ctaRef} href="#contact" className="cta-button reveal" style={{ transitionDelay: '0.4s' }}>
             Get In Touch
           </a>
 
-          {/* Stats Section with Separators */}
-          <div className="stats-container">
+          <div ref={statsRef} className="stats-container stagger-children" style={{ transitionDelay: '0.5s' }}>
             <div className="stat-item">
               <FiFolder className="stat-icon" />
               <span className="stat-number">3+</span>
               <span className="stat-label">PROJECTS BUILT</span>
             </div>
-            
             <div className="stat-divider"></div>
-            
             <div className="stat-item">
               <FiAward className="stat-icon" />
               <span className="stat-number">3</span>
@@ -42,6 +51,7 @@ function Hero() {
             </div>
           </div>
         </div>
+
       </div>
     </section>
   )
@@ -77,7 +87,10 @@ styles.textContent = `
     object-fit: cover;
     border: 8px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    transition: all 0.5s ease;
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.5s ease,
+                box-shadow 0.5s ease;
     animation: float 3s ease-in-out infinite;
   }
 
@@ -85,6 +98,15 @@ styles.textContent = `
     transform: scale(1.05);
     border-color: rgba(184, 168, 255, 0.6);
     box-shadow: 0 25px 50px rgba(138, 43, 226, 0.3);
+  }
+
+  /* Override float animation when element is not yet visible */
+  .hero-image.reveal:not(.visible) {
+    animation: none;
+  }
+
+  .hero-image.reveal.visible {
+    animation: float 3s ease-in-out infinite;
   }
 
   .head {
@@ -151,7 +173,10 @@ styles.textContent = `
     font-size: 1.1rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                background 0.3s ease,
+                box-shadow 0.3s ease;
     margin-top: 20px;
     margin-bottom: 40px;
   }
@@ -162,7 +187,11 @@ styles.textContent = `
     box-shadow: 0 10px 30px rgba(123, 104, 238, 0.3);
   }
 
-  /* STATS SECTION - ICON AND NUMBER ON SAME LINE */
+  /* Override reveal transform on hover for cta-button */
+  .cta-button.reveal.visible:hover {
+    transform: translateY(-3px);
+  }
+
   .stats-container {
     display: flex;
     align-items: center;
