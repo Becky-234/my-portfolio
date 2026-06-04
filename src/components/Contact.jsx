@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import { FiMail, FiUser, FiMessageSquare, FiSend, FiGithub, FiLinkedin, FiMapPin, FiCheck, FiAlertCircle } from 'react-icons/fi'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const EMAILJS_SERVICE_ID  = 'service_qwq4ziw'
 const EMAILJS_TEMPLATE_ID = 'template_2boblws' 
 const EMAILJS_PUBLIC_KEY  = 'rqmX717gd7xt_oJyo'
 
 function Contact() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
-  })
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    message: ''
-  })
-  const [touched, setTouched] = useState({
-    name: false,
-    email: false,
-    message: false
-  })
-  const [status, setStatus] = useState('idle')
+  const headingRef    = useScrollReveal({ threshold: 0.2 })
+  const subtitleRef   = useScrollReveal({ threshold: 0.2 })
+  const leftRef       = useScrollReveal({ threshold: 0.15 })
+  const rightRef      = useScrollReveal({ threshold: 0.15 })
+
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [errors, setErrors]     = useState({ name: '', email: '', message: '' })
+  const [touched, setTouched]   = useState({ name: false, email: false, message: false })
+  const [status, setStatus]     = useState('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
   useEffect(() => {
@@ -31,23 +25,19 @@ function Contact() {
     document.head.appendChild(script)
   }, [])
 
-  // Validation functions
-  const validateName = (name) => {
+  const validateName    = (name)    => {
     if (!name) return 'Name is required'
     if (name.length < 2) return 'Name must be at least 2 characters'
     if (name.length > 50) return 'Name must be less than 50 characters'
     if (!/^[a-zA-Z\s]+$/.test(name)) return 'Name can only contain letters and spaces'
     return ''
   }
-
-  const validateEmail = (email) => {
+  const validateEmail   = (email)   => {
     if (!email) return 'Email is required'
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) return 'Enter a valid email address (e.g., name@example.com)'
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Enter a valid email address (e.g., name@example.com)'
     if (email.length > 100) return 'Email must be less than 100 characters'
     return ''
   }
-
   const validateMessage = (message) => {
     if (!message) return 'Message is required'
     if (message.length < 10) return 'Message must be at least 10 characters'
@@ -58,13 +48,10 @@ function Contact() {
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData(prev => ({ ...prev, [name]: value }))
-    
-    // Validate on change if field has been touched
     if (touched[name]) {
-      let error = ''
-      if (name === 'name') error = validateName(value)
-      if (name === 'email') error = validateEmail(value)
-      if (name === 'message') error = validateMessage(value)
+      const error = name === 'name' ? validateName(value)
+                  : name === 'email' ? validateEmail(value)
+                  : validateMessage(value)
       setErrors(prev => ({ ...prev, [name]: error }))
     }
   }
@@ -72,55 +59,33 @@ function Contact() {
   const handleBlur = (e) => {
     const { name, value } = e.target
     setTouched(prev => ({ ...prev, [name]: true }))
-    
-    let error = ''
-    if (name === 'name') error = validateName(value)
-    if (name === 'email') error = validateEmail(value)
-    if (name === 'message') error = validateMessage(value)
+    const error = name === 'name' ? validateName(value)
+                : name === 'email' ? validateEmail(value)
+                : validateMessage(value)
     setErrors(prev => ({ ...prev, [name]: error }))
   }
 
   const validateForm = () => {
-    const nameError = validateName(formData.name)
-    const emailError = validateEmail(formData.email)
+    const nameError    = validateName(formData.name)
+    const emailError   = validateEmail(formData.email)
     const messageError = validateMessage(formData.message)
-    
-    setErrors({
-      name: nameError,
-      email: emailError,
-      message: messageError
-    })
-    
-    setTouched({
-      name: true,
-      email: true,
-      message: true
-    })
-    
+    setErrors({ name: nameError, email: emailError, message: messageError })
+    setTouched({ name: true, email: true, message: true })
     return !nameError && !emailError && !messageError
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    if (!validateForm()) {
-      return
-    }
-    
+    if (!validateForm()) return
     setStatus('sending')
     setErrorMsg('')
-
     try {
-      await window.emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        {
-          from_name:  formData.name,
-          from_email: formData.email,
-          message:    formData.message,
-          to_email:   'bkirabo853@gmail.com',
-        }
-      )
+      await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        from_name:  formData.name,
+        from_email: formData.email,
+        message:    formData.message,
+        to_email:   'bkirabo853@gmail.com',
+      })
       setStatus('success')
       setFormData({ name: '', email: '', message: '' })
       setTouched({ name: false, email: false, message: false })
@@ -134,33 +99,32 @@ function Contact() {
     }
   }
 
-  const isFormValid = () => {
-    return formData.name && formData.email && formData.message &&
-           !validateName(formData.name) && 
-           !validateEmail(formData.email) && 
-           !validateMessage(formData.message)
-  }
+  const isFormValid = () =>
+    formData.name && formData.email && formData.message &&
+    !validateName(formData.name) &&
+    !validateEmail(formData.email) &&
+    !validateMessage(formData.message)
 
   return (
     <section id="contact" className="contactSection">
       <div className="contactContainer">
-        <h1 className="contactHeading">Get In Touch</h1>
-        <p className="contactSubtitle">
+
+        <h1 ref={headingRef} className="contactHeading reveal">Get In Touch</h1>
+        <p ref={subtitleRef} className="contactSubtitle reveal" style={{ transitionDelay: '0.1s' }}>
           Have a project in mind? I'd love to hear from you.
         </p>
 
         <div className="contactTwoColumns">
-          {/* LEFT COLUMN - SOCIAL LINKS */}
-          <div className="contactLeft">
+
+          {/* LEFT COLUMN */}
+          <div ref={leftRef} className="contactLeft reveal reveal-left" style={{ transitionDelay: '0.2s' }}>
             <div className="contactInfo">
               <h3 className="contactInfoTitle">Connect with me</h3>
               <p className="contactInfoText">Feel free to reach out through any of these platforms</p>
-              
               <div className="contactLocation">
                 <FiMapPin size={20} />
                 <span>Kampala, Uganda</span>
               </div>
-              
               <div className="contactLocation">
                 <FiMail size={20} />
                 <span>bkirabo853@gmail.com</span>
@@ -180,7 +144,7 @@ function Contact() {
           </div>
 
           {/* RIGHT COLUMN - FORM */}
-          <div className="contactRight">
+          <div ref={rightRef} className="contactRight reveal reveal-right" style={{ transitionDelay: '0.3s' }}>
             <form className="contactForm" onSubmit={handleSubmit} noValidate>
               <div className="formRow">
                 <div className="formGroup">
@@ -199,12 +163,8 @@ function Contact() {
                     className={`formInput ${touched.name && errors.name ? 'error' : touched.name && !errors.name ? 'success' : ''}`}
                     disabled={status === 'sending' || status === 'success'}
                   />
-                  {touched.name && errors.name && (
-                    <div className="errorMessage">{errors.name}</div>
-                  )}
-                  {touched.name && !errors.name && formData.name && (
-                    <div className="successMessage">✓ Valid name</div>
-                  )}
+                  {touched.name && errors.name && <div className="errorMessage">{errors.name}</div>}
+                  {touched.name && !errors.name && formData.name && <div className="successMessage">✓ Valid name</div>}
                 </div>
 
                 <div className="formGroup">
@@ -223,12 +183,8 @@ function Contact() {
                     className={`formInput ${touched.email && errors.email ? 'error' : touched.email && !errors.email ? 'success' : ''}`}
                     disabled={status === 'sending' || status === 'success'}
                   />
-                  {touched.email && errors.email && (
-                    <div className="errorMessage">{errors.email}</div>
-                  )}
-                  {touched.email && !errors.email && formData.email && (
-                    <div className="successMessage">✓ Valid email</div>
-                  )}
+                  {touched.email && errors.email && <div className="errorMessage">{errors.email}</div>}
+                  {touched.email && !errors.email && formData.email && <div className="successMessage">✓ Valid email</div>}
                 </div>
               </div>
 
@@ -248,15 +204,9 @@ function Contact() {
                   className={`formTextarea ${touched.message && errors.message ? 'error' : touched.message && !errors.message ? 'success' : ''}`}
                   disabled={status === 'sending' || status === 'success'}
                 />
-                <div className="charCounter">
-                  {formData.message.length}/1000 characters
-                </div>
-                {touched.message && errors.message && (
-                  <div className="errorMessage">{errors.message}</div>
-                )}
-                {touched.message && !errors.message && formData.message && (
-                  <div className="successMessage">✓ Valid message</div>
-                )}
+                <div className="charCounter">{formData.message.length}/1000 characters</div>
+                {touched.message && errors.message && <div className="errorMessage">{errors.message}</div>}
+                {touched.message && !errors.message && formData.message && <div className="successMessage">✓ Valid message</div>}
               </div>
 
               {status === 'success' && (
@@ -265,7 +215,6 @@ function Contact() {
                   <span>Message sent! I'll get back to you soon.</span>
                 </div>
               )}
-
               {status === 'error' && (
                 <div className="statusMessage statusError">
                   <FiAlertCircle size={18} />
@@ -279,24 +228,16 @@ function Contact() {
                 disabled={status === 'sending' || status === 'success' || !isFormValid()}
               >
                 {status === 'sending' ? (
-                  <>
-                    <span className="spinner" />
-                    Sending...
-                  </>
+                  <><span className="spinner" />Sending...</>
                 ) : status === 'success' ? (
-                  <>
-                    <FiCheck size={18} />
-                    Sent!
-                  </>
+                  <><FiCheck size={18} />Sent!</>
                 ) : (
-                  <>
-                    <FiSend size={18} />
-                    Send Message
-                  </>
+                  <><FiSend size={18} />Send Message</>
                 )}
               </button>
             </form>
           </div>
+
         </div>
       </div>
     </section>
@@ -356,6 +297,19 @@ styles.textContent = `
     display: flex;
     flex-direction: column;
     gap: 30px;
+    /* merge reveal-left transition with hover */
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .contactRight {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* merge reveal-right transition */
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .contactInfo {
@@ -424,13 +378,6 @@ styles.textContent = `
     font-weight: 500;
   }
 
-  .contactRight {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 30px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
   .contactForm {
     display: flex;
     flex-direction: column;
@@ -485,25 +432,16 @@ styles.textContent = `
   }
 
   .formInput.error,
-  .formTextarea.error {
-    border-color: #f87171;
-  }
+  .formTextarea.error { border-color: #f87171; }
 
   .formInput.success,
-  .formTextarea.success {
-    border-color: #4ade80;
-  }
+  .formTextarea.success { border-color: #4ade80; }
 
   .formInput::placeholder,
-  .formTextarea::placeholder {
-    color: rgba(255, 255, 255, 0.4);
-  }
+  .formTextarea::placeholder { color: rgba(255, 255, 255, 0.4); }
 
   .formInput:disabled,
-  .formTextarea:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
+  .formTextarea:disabled { opacity: 0.6; cursor: not-allowed; }
 
   .formTextarea {
     resize: vertical;
