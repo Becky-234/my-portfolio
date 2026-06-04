@@ -1,22 +1,30 @@
 import React from 'react'
 import { FiHeart, FiGithub, FiLinkedin, FiMapPin, FiMail } from 'react-icons/fi'
 import { FaXTwitter } from 'react-icons/fa6'
+import { useScrollReveal } from '../hooks/useScrollReveal'
 
 function Footer() {
   const currentYear = new Date().getFullYear()
+
+  const brandRef   = useScrollReveal({ threshold: 0.1 })
+  const linksRef   = useScrollReveal({ threshold: 0.1 })
+  const contactRef = useScrollReveal({ threshold: 0.1 })
+  const socialRef  = useScrollReveal({ threshold: 0.1 })
+  const bottomRef  = useScrollReveal({ threshold: 0.1 })
 
   return (
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-content">
+
           {/* Logo and Tagline */}
-          <div className="footer-section">
+          <div ref={brandRef} className="footer-section reveal" style={{ transitionDelay: '0s' }}>
             <h3 className="footer-logo">Becky</h3>
             <p className="footer-tagline">Building beautiful, accessible web experiences that make a difference</p>
           </div>
 
           {/* Quick Links */}
-          <div className="footer-section">
+          <div ref={linksRef} className="footer-section reveal" style={{ transitionDelay: '0.1s' }}>
             <h4 className="footer-title">Quick Links</h4>
             <ul className="footer-links">
               <li><a href="#hero">Home</a></li>
@@ -28,7 +36,7 @@ function Footer() {
           </div>
 
           {/* Contact Info */}
-          <div className="footer-section">
+          <div ref={contactRef} className="footer-section reveal" style={{ transitionDelay: '0.2s' }}>
             <h4 className="footer-title">Contact Info</h4>
             <div className="footer-contact">
               <FiMail size={16} />
@@ -41,7 +49,7 @@ function Footer() {
           </div>
 
           {/* Social Links */}
-          <div className="footer-section">
+          <div ref={socialRef} className="footer-section reveal" style={{ transitionDelay: '0.3s' }}>
             <h4 className="footer-title">Follow Me</h4>
             <div className="footer-social">
               <a href="https://github.com/Becky-234" target="_blank" rel="noopener noreferrer" className="footer-social-link">
@@ -55,10 +63,11 @@ function Footer() {
               </a>
             </div>
           </div>
+
         </div>
 
         {/* Bottom Bar */}
-        <div className="footer-bottom">
+        <div ref={bottomRef} className="footer-bottom reveal" style={{ transitionDelay: '0.4s' }}>
           <p>© {currentYear} Kirabo Rebecca. All rights reserved.</p>
           <p className="footer-made-with">
             Made with <FiHeart size={14} color="#ff6b6b" /> using React
@@ -211,50 +220,19 @@ styles.textContent = `
   }
 
   @media (max-width: 768px) {
-    .footer {
-      padding: 40px 20px 20px;
-    }
-
-    .footer-content {
-      grid-template-columns: 1fr;
-      gap: 30px;
-      text-align: center;
-    }
-
-    .footer-section {
-      text-align: center;
-    }
-
-    .footer-tagline {
-      max-width: 100%;
-    }
-
-    .footer-contact {
-      justify-content: center;
-    }
-
-    .footer-social {
-      justify-content: center;
-    }
-
-    .footer-bottom {
-      flex-direction: column;
-      text-align: center;
-    }
+    .footer { padding: 40px 20px 20px; }
+    .footer-content { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .footer-section { text-align: center; }
+    .footer-tagline { max-width: 100%; }
+    .footer-contact { justify-content: center; }
+    .footer-social { justify-content: center; }
+    .footer-bottom { flex-direction: column; text-align: center; }
   }
 
   @media (max-width: 480px) {
-    .footer {
-      padding: 30px 15px 15px;
-    }
-    
-    .footer-logo {
-      font-size: 1.5rem;
-    }
-    
-    .footer-title {
-      font-size: 1rem;
-    }
+    .footer { padding: 30px 15px 15px; }
+    .footer-logo { font-size: 1.5rem; }
+    .footer-title { font-size: 1rem; }
   }
 `
 document.head.appendChild(styles)
