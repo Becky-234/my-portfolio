@@ -1,5 +1,5 @@
 import React from 'react'
-import mineImage from '../assets/mine.jpg'
+import mineImage from '../assets/MY.jpeg'
 import { FiFolder, FiAward } from 'react-icons/fi'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
