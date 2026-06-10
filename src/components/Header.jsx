@@ -8,6 +8,7 @@ function Header({ scrolled }) {
     { name: 'About', href: '#about' },
     { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
+    { name: 'Education', href: '#education' },
     { name: 'Contact', href: '#contact' }
   ]
 
@@ -162,7 +163,7 @@ headerStyles.textContent = `
   .nav-links li:nth-child(2) a { animation-delay: 0.2s; }
   .nav-links li:nth-child(3) a { animation-delay: 0.4s; }
   .nav-links li:nth-child(4) a { animation-delay: 0.6s; }
-
+  .nav-links li:nth-child(5) a { animation-delay: 0.8s; }
   @keyframes floatSpace {
     0%, 100% {
       transform: translateY(0px);
