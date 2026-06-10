@@ -6,6 +6,8 @@ const skills = [
   { name: 'CSS3',        percentage: 85, logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
   { name: 'JavaScript',  percentage: 80, logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
   { name: 'React',       percentage: 75, logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
+  { name: 'Vue.js',      percentage: 70, logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
+  { name: 'Node.js',     percentage: 75, logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
   { name: 'React Native',percentage: 70, logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
   { name: 'Figma',       percentage: 85, logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg' }
 ]
@@ -35,7 +37,7 @@ function SkillCard({ skill, index }) {
 
     observer.observe(card)
     return () => observer.disconnect()
-  }, [skill.percentage])  // ✅ no more missing dependency warning
+  }, [skill.percentage])
 
   return (
     <div
