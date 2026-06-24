@@ -1,6 +1,7 @@
 import React from 'react'
 import mineImage from '../assets/MY.jpeg'
-import { FiFolder, FiAward } from 'react-icons/fi'
+import { FiFolder, FiAward, FiDownload } from 'react-icons/fi'
+import { FiLinkedin, FiGithub, FiTwitter } from 'react-icons/fi'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 function Hero() {
@@ -11,6 +12,7 @@ function Hero() {
   const mottoRef   = useScrollReveal({ threshold: 0.2 })
   const ctaRef     = useScrollReveal({ threshold: 0.2 })
   const statsRef   = useScrollReveal({ threshold: 0.2 })
+  const socialRef  = useScrollReveal({ threshold: 0.2 })
 
   return (
     <section id="hero" className="introContainer">
@@ -33,9 +35,29 @@ function Hero() {
             <p className="motto-sub">Code with purpose • Design with passion • Create with impact</p>
           </div>
 
-          <a ref={ctaRef} href="#contact" className="cta-button reveal" style={{ transitionDelay: '0.4s' }}>
-            Get In Touch
-          </a>
+          <div ref={ctaRef} className="cta-group reveal" style={{ transitionDelay: '0.4s' }}>
+            <a href="#contact" className="cta-button">
+              Get In Touch
+            </a>
+            <a href="/Kirabo_Rebecca_CV.pdf" download className="cta-button cta-outline">
+              <FiDownload className="cta-icon" />
+              Download CV
+            </a>
+          </div>
+
+          <div ref={socialRef} className="social-links reveal" style={{ transitionDelay: '0.45s' }}>
+            <a href="https://linkedin.com/in/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn">
+              <FiLinkedin />
+            </a>
+            <a href="https://github.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="GitHub">
+              <FiGithub />
+            </a>
+            <a href="https://twitter.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="X / Twitter">
+              <svg className="social-icon-x" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          </div>
 
           <div ref={statsRef} className="stats-container stagger-children" style={{ transitionDelay: '0.5s' }}>
             <div className="stat-item">
@@ -57,7 +79,6 @@ function Hero() {
   )
 }
 
-// CSS AT THE BOTTOM
 const styles = document.createElement('style')
 styles.textContent = `
   .introContainer {
@@ -81,8 +102,8 @@ styles.textContent = `
   }
 
   .hero-image {
-    width: 400px;
-    height: 400px;
+    width: 440px;
+    height: 440px;
     border-radius: 50%;
     object-fit: cover;
     border: 8px solid rgba(255, 255, 255, 0.2);
@@ -92,6 +113,7 @@ styles.textContent = `
                 border-color 0.5s ease,
                 box-shadow 0.5s ease;
     animation: float 3s ease-in-out infinite;
+    flex-shrink: 0;
   }
 
   .hero-image:hover {
@@ -100,7 +122,6 @@ styles.textContent = `
     box-shadow: 0 25px 50px rgba(138, 43, 226, 0.3);
   }
 
-  /* Override float animation when element is not yet visible */
   .hero-image.reveal:not(.visible) {
     animation: none;
   }
@@ -162,8 +183,20 @@ styles.textContent = `
     font-style: normal;
   }
 
+  /* CTA GROUP */
+  .cta-group {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: 28px;
+  }
+
   .cta-button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     padding: 15px 35px;
     background: linear-gradient(135deg, rgba(123, 104, 238, 0.8), rgba(75, 0, 130, 0.8));
     color: white;
@@ -173,12 +206,7 @@ styles.textContent = `
     font-size: 1.1rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
     cursor: pointer;
-    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                background 0.3s ease,
-                box-shadow 0.3s ease;
-    margin-top: 20px;
-    margin-bottom: 40px;
+    transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
   }
 
   .cta-button:hover {
@@ -187,11 +215,60 @@ styles.textContent = `
     box-shadow: 0 10px 30px rgba(123, 104, 238, 0.3);
   }
 
-  /* Override reveal transform on hover for cta-button */
-  .cta-button.reveal.visible:hover {
-    transform: translateY(-3px);
+  .cta-outline {
+    background: transparent;
+    border: 1.5px solid rgba(184, 168, 255, 0.5);
+    color: #b8a8ff;
   }
 
+  .cta-outline:hover {
+    background: rgba(184, 168, 255, 0.1);
+    border-color: rgba(184, 168, 255, 0.8);
+    box-shadow: 0 10px 30px rgba(184, 168, 255, 0.15);
+    color: #ffffff;
+  }
+
+  .cta-icon {
+    font-size: 1.1rem;
+  }
+
+  /* SOCIAL LINKS */
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(184, 168, 255, 0.35);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: color 0.25s ease, border-color 0.25s ease,
+                background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .social-link:hover {
+    color: #ffffff;
+    border-color: #b8a8ff;
+    background: rgba(184, 168, 255, 0.12);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(123, 104, 238, 0.3);
+  }
+
+  .social-icon-x {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  /* STATS */
   .stats-container {
     display: flex;
     align-items: center;
@@ -242,17 +319,19 @@ styles.textContent = `
     .intro { flex-direction: column; text-align: center; gap: 40px; }
     .head { text-align: center; }
     .hero-h1 { font-size: 3rem; }
-    .hero-image { width: 300px; height: 300px; }
+    .hero-image { width: 340px; height: 340px; }
     .motto-text { font-size: 1.1rem; }
     .motto-sub { font-size: 0.9rem; }
     .stats-container { justify-content: center; }
+    .cta-group { justify-content: center; }
+    .social-links { justify-content: center; }
   }
 
   @media (max-width: 768px) {
     .introContainer { padding: 100px 20px 60px; }
     .hero-h1 { font-size: 2.5rem; }
     .hero-major { font-size: 1.5rem; }
-    .hero-image { width: 250px; height: 250px; }
+    .hero-image { width: 280px; height: 280px; }
     .motto-text { font-size: 1rem; }
     .stat-number { font-size: 1.5rem; }
     .stat-icon { font-size: 24px; }
@@ -263,7 +342,7 @@ styles.textContent = `
   @media (max-width: 480px) {
     .hero-h1 { font-size: 2rem; }
     .hero-major { font-size: 1.3rem; }
-    .hero-image { width: 200px; height: 200px; }
+    .hero-image { width: 220px; height: 220px; }
     .cta-button { padding: 12px 25px; font-size: 1rem; }
     .motto-text { font-size: 0.9rem; }
     .motto-sub { font-size: 0.8rem; word-spacing: 2px; }
@@ -273,6 +352,7 @@ styles.textContent = `
     .stat-label { font-size: 0.65rem; }
     .stat-divider { height: 30px; }
     .stat-item { gap: 6px; }
+    .social-link { width: 38px; height: 38px; font-size: 1.05rem; }
   }
 `
 document.head.appendChild(styles)
