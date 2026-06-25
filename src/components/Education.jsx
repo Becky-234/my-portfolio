@@ -2,7 +2,7 @@ import React from 'react'
 import { FiBookOpen, FiCalendar, FiMapPin, FiAward } from 'react-icons/fi'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
-const education = [
+const certifications = [
   {
     degree: 'Apprenticeship Training in Software Engineering',
     institution: 'REFECTORY ACADEMY',
@@ -22,20 +22,10 @@ const education = [
     description: 'Intensive program covering modern frontend development with JavaScript, responsive design, accessibility, and professional development workflows.',
     highlights: ['JavaScript', 'HTML/CSS', 'Git & GitHub', 'Agile & Scrum'],
     color: '#a855f7'
-  },
-  {
-    degree: 'Uganda Advanced Certificate of Education (UACE)',
-    institution: 'OLD KAMPLA SENIOR SECONDARY SCHOOL',
-    location: 'Onsite',
-    period: 'March 2023 - December 2024',
-    status: 'Completed',
-    description: 'Comprehensive curriculum with a focus on science subjects, fostering critical thinking and problem-solving skills.',
-    highlights: ['Physics', 'Mathematics', 'Fine Arts', 'ICT'],
-    color: '#06b6d4'
   }
 ]
 
-function EducationCard({ item, index }) {
+function CertificationCard({ item, index }) {
   const cardRef = useScrollReveal({ threshold: 0.15 })
 
   return (
@@ -51,7 +41,7 @@ function EducationCard({ item, index }) {
         {/* Header */}
         <div className="edu-header">
           <div className="edu-icon-wrap" style={{ background: `${item.color}22`, border: `1px solid ${item.color}55` }}>
-            <FiBookOpen size={22} style={{ color: item.color }} />
+            <FiAward size={22} style={{ color: item.color }} />
           </div>
           <div className="edu-header-text">
             <h3 className="edu-degree">{item.degree}</h3>
@@ -108,10 +98,10 @@ function Education() {
         <div className="edu-heading-wrap">
           <h1 ref={headingRef} className="edu-heading reveal">
             <FiAward size={32} style={{ display: 'inline', marginRight: '12px', verticalAlign: 'middle' }} />
-            Education
+            Certifications
           </h1>
           <p ref={subheadingRef} className="edu-subheading reveal" style={{ transitionDelay: '0.1s' }}>
-            My academic background & certifications
+            My training & professional certifications
           </p>
         </div>
 
@@ -119,8 +109,8 @@ function Education() {
         <div className="edu-timeline">
           <div className="edu-timeline-line" />
           <div className="edu-cards">
-            {education.map((item, index) => (
-              <EducationCard key={index} item={item} index={index} />
+            {certifications.map((item, index) => (
+              <CertificationCard key={index} item={item} index={index} />
             ))}
           </div>
         </div>
@@ -212,7 +202,6 @@ styles.textContent = `
     border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     overflow: hidden;
-    /* merge reveal + hover */
     transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
                 transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
                 background 0.3s ease,
