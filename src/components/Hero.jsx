@@ -1,6 +1,6 @@
 import React from 'react'
 import mineImage from '../assets/MY.jpeg'
-import { FiFolder, FiAward, FiDownload } from 'react-icons/fi'
+import { FiFolder, FiAward, FiDownload, FiSmartphone, FiGlobe } from 'react-icons/fi'
 import { FiLinkedin, FiGithub, FiTwitter } from 'react-icons/fi'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
@@ -28,10 +28,16 @@ function Hero() {
         <div className="head">
           <h3 ref={greetRef} className="hero-h3 reveal">Hello, I'm</h3>
           <h1 ref={nameRef}  className="hero-h1 reveal" style={{ transitionDelay: '0.1s' }}>KIRABO REBECCA</h1>
-          <h2 ref={titleRef} className="hero-major reveal" style={{ transitionDelay: '0.2s' }}>Frontend Developer</h2>
+          <h2 ref={titleRef} className="hero-major reveal" style={{ transitionDelay: '0.2s' }}>
+            Full Stack Developer
+            <span className="title-badge">
+              <FiGlobe className="badge-icon" /> Web
+              <FiSmartphone className="badge-icon" /> Mobile
+            </span>
+          </h2>
 
           <div ref={mottoRef} className="motto-container reveal" style={{ transitionDelay: '0.3s' }}>
-            <p className="motto-text">Building beautiful, accessible web experiences that make a difference</p>
+            <p className="motto-text">Building scalable web & mobile experiences that make a difference</p>
             <p className="motto-sub">Code with purpose • Design with passion • Create with impact</p>
           </div>
 
@@ -39,20 +45,20 @@ function Hero() {
             <a href="#contact" className="cta-button">
               Get In Touch
             </a>
-            <a href="/Kirabo_Rebecca_CV.pdf" download className="cta-button cta-outline">
+            <a href="https://drive.google.com/drive/folders/1sSEJLoKRtXU1tDqc-cjwCZVEEgEKzv88" target="_blank" rel="noopener noreferrer" className="cta-button cta-outline">
               <FiDownload className="cta-icon" />
               Download CV
             </a>
           </div>
 
           <div ref={socialRef} className="social-links reveal" style={{ transitionDelay: '0.45s' }}>
-            <a href="https://linkedin.com/in/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn">
+            <a href="https://www.linkedin.com/in/rebecca-kirabo-b841002ab/" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="LinkedIn">
               <FiLinkedin />
             </a>
-            <a href="https://github.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="GitHub">
+            <a href="https://github.com/Becky-234" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="GitHub">
               <FiGithub />
             </a>
-            <a href="https://twitter.com/YOUR_USERNAME" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="X / Twitter">
+            <a href="https://twitter.com/@KiraboReberbyk" target="_blank" rel="noopener noreferrer" className="social-link" aria-label="X / Twitter">
               <svg className="social-icon-x" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
               </svg>
@@ -62,7 +68,7 @@ function Hero() {
           <div ref={statsRef} className="stats-container stagger-children" style={{ transitionDelay: '0.5s' }}>
             <div className="stat-item">
               <FiFolder className="stat-icon" />
-              <span className="stat-number">3+</span>
+              <span className="stat-number">5+</span>
               <span className="stat-label">PROJECTS BUILT</span>
             </div>
             <div className="stat-divider"></div>
@@ -71,6 +77,12 @@ function Hero() {
               <span className="stat-number">3</span>
               <span className="stat-label">CERTIFICATIONS</span>
             </div>
+            <div className="stat-divider"></div>
+            {/* <div className="stat-item">
+              <FiSmartphone className="stat-icon" />
+              <span className="stat-number">2</span>
+              <span className="stat-label">MOBILE APPS</span>
+            </div> */}
           </div>
         </div>
 
@@ -158,6 +170,28 @@ styles.textContent = `
     font-weight: 600;
     color: #a0c0ff;
     margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .title-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #b8a8ff;
+    background: rgba(184, 168, 255, 0.1);
+    padding: 6px 18px;
+    border-radius: 50px;
+    border: 1px solid rgba(184, 168, 255, 0.2);
+    width: fit-content;
+  }
+
+  .badge-icon {
+    font-size: 1rem;
+    color: #7b68ee;
   }
 
   .motto-container {
@@ -325,6 +359,7 @@ styles.textContent = `
     .stats-container { justify-content: center; }
     .cta-group { justify-content: center; }
     .social-links { justify-content: center; }
+    .title-badge { margin: 0 auto; }
   }
 
   @media (max-width: 768px) {
@@ -353,6 +388,8 @@ styles.textContent = `
     .stat-divider { height: 30px; }
     .stat-item { gap: 6px; }
     .social-link { width: 38px; height: 38px; font-size: 1.05rem; }
+    .title-badge { font-size: 0.75rem; padding: 4px 12px; gap: 8px; }
+    .badge-icon { font-size: 0.8rem; }
   }
 `
 document.head.appendChild(styles)

@@ -5,15 +5,59 @@ import {
 } from 'react-icons/si'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
+// Import your actual images
+import ekiEcommerce from '../assets/eki.png'
+import ekiBuyer from '../assets/eki-buyer.png'
+import ekiSeller from '../assets/eki-seller.png'
+import mayondo from '../assets/mayondo.png'
+import weather from '../assets/weather.png'
+import voguevalt from '../assets/voguevalt.png'
+
 const projects = [
+  {
+    title: 'EKI E-Commerce Platform',
+    description: 'A full-featured e-commerce web platform with product management, shopping cart, user authentication, and secure payment integration.',
+    link: 'https://joineki.com/',
+    github: 'https://github.com/Becky-234/eki-ecommerce',
+    accentColor: '#7C3AED',
+    category: 'Web App',
+    image: ekiEcommerce,
+    tags: ['React.js', 'Python', 'PostgreSQL'],
+    deployedWith: <SiRender size={14} style={{ display: 'inline', marginRight: '5px' }} />,
+    deployLabel: 'Render'
+  },
+  {
+    title: 'EKI Buyer App',
+    description: 'Mobile shopping app for customers to browse products, place orders, track order status, and make secure payments.',
+    link: null,
+    github: null,
+    accentColor: '#10b981',
+    category: 'Mobile App',
+    image: ekiBuyer,
+    tags: ['React Native', 'Expo', 'Python', 'Paystack'],
+    deployedWith: <SiExpo size={14} style={{ display: 'inline', marginRight: '5px' }} />,
+    deployLabel: 'Expo'
+  },
+  {
+    title: 'EKI Seller: Vendor App',
+    description: 'Mobile app for vendors to manage products, track orders, handle inventory, and monitor sales analytics.',
+    link: null,
+    github: null,
+    accentColor: '#F59E0B',
+    category: 'Mobile App',
+    image: ekiSeller,
+    tags: ['React Native', 'Expo', 'Python', 'PostgreSQL'],
+    deployedWith: <SiExpo size={14} style={{ display: 'inline', marginRight: '5px' }} />,
+    deployLabel: 'Expo'
+  },
   {
     title: 'Mayondo Wood & Furniture Management System',
     description: 'A comprehensive management system for wood and furniture business operations, featuring inventory tracking, order management, and business analytics.',
     link: 'https://mayondo-654f.onrender.com/',
     github: null,
-    icon: <FiPackage size={24} />,
     accentColor: '#CD853F',
     category: 'Web App',
+    image: mayondo,
     tags: ['HTML5', 'CSS3', 'JavaScript', 'Node.js', 'MongoDB'],
     deployedWith: <SiRender size={14} style={{ display: 'inline', marginRight: '5px' }} />,
     deployLabel: 'Render'
@@ -23,10 +67,10 @@ const projects = [
     description: 'Real-time weather forecasting app with location-based services, 7-day forecasts, and dynamic weather visualizations.',
     link: 'https://myweatherwww.netlify.app/',
     github: null,
-    icon: <FiCloud size={24} />,
     accentColor: '#4A90E2',
     category: 'Web App',
-    tags: ['HTML5' , 'CSS3', 'JavaScript', 'Weather API', 'Geolocation'],
+    image: weather,
+    tags: ['HTML5', 'CSS3', 'JavaScript', 'Weather API', 'Geolocation'],
     deployedWith: <SiNetlify size={14} style={{ display: 'inline', marginRight: '5px' }} />,
     deployLabel: 'Netlify'
   },
@@ -35,24 +79,12 @@ const projects = [
     description: 'Modern e-commerce fashion website with responsive design, product browsing, and a clean shopping interface.',
     link: 'https://github.com/Becky-234/my-first-website',
     github: 'https://github.com/Becky-234/my-first-website',
-    icon: <FiShoppingBag size={24} />,
     accentColor: '#E75480',
     category: 'Website',
+    image: voguevalt,
     tags: ['HTML5', 'CSS3', 'Responsive'],
     deployedWith: <FiGithub size={14} style={{ display: 'inline', marginRight: '5px' }} />,
     deployLabel: 'GitHub'
-  },
-  {
-    title: 'Multi-Vendor Booking & E-Commerce App',
-    description: 'Full-stack mobile app supporting multi-vendor storefronts, product and service listings, bookings, and Paystack payment integration.',
-    link: null,
-    github: null,
-    icon: <FiSmartphone size={24} />,
-    accentColor: '#10b981',
-    category: 'Mobile App',
-    tags: ['React Native', 'Expo', 'Django', 'PostgreSQL', 'Paystack API'],
-    deployedWith: <SiExpo size={14} style={{ display: 'inline', marginRight: '5px' }} />,
-    deployLabel: 'Expo'
   }
 ]
 
@@ -67,15 +99,27 @@ function ProjectCard({ project, index }) {
       className="project-card reveal reveal-scale"
       style={{ transitionDelay: `${index * 0.12}s`, '--accent': project.accentColor }}
     >
-      {/* Top accent line */}
-      <div className="project-top-bar" style={{ background: `linear-gradient(90deg, ${project.accentColor}, transparent)` }} />
-
-      <div className="project-card-body">
-        {/* Icon + category badge */}
-        <div className="project-card-top">
-          <div className="project-icon-wrap" style={{ background: `${project.accentColor}22`, border: `1px solid ${project.accentColor}44`, color: project.accentColor }}>
+      {/* Image Section */}
+      <div className="project-image-container">
+        <img 
+          src={project.image} 
+          alt={project.title}
+          className="project-image"
+          onError={(e) => {
+            e.target.src = 'https://via.placeholder.com/600x400/2d2d2d/7b68ee?text=' + project.title
+          }}
+        />
+        <div className="project-image-overlay">
+          <div className="project-icon-wrap" style={{ background: `${project.accentColor}33`, border: `2px solid ${project.accentColor}66`, color: project.accentColor }}>
             {project.icon}
           </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="project-card-body">
+        {/* Category badge */}
+        <div className="project-card-top">
           <span className="project-category-badge" style={{ color: project.accentColor, borderColor: `${project.accentColor}55`, background: `${project.accentColor}11` }}>
             {project.category}
           </span>
@@ -271,10 +315,49 @@ styles.textContent = `
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
   }
 
-  .project-top-bar {
-    height: 3px;
+  /* Image Styles */
+  .project-image-container {
+    position: relative;
     width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  .project-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .project-card:hover .project-image {
+    transform: scale(1.05);
+  }
+
+  .project-image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 16px;
+  }
+
+  .project-image-overlay .project-icon-wrap {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
   }
 
   .project-card-body {
@@ -287,23 +370,8 @@ styles.textContent = `
   .project-card-top {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
-  }
-
-  .project-icon-wrap {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.3s ease;
-  }
-
-  .project-card:hover .project-icon-wrap {
-    transform: scale(1.05);
+    justify-content: flex-end;
+    margin-bottom: 12px;
   }
 
   .project-category-badge {
@@ -313,7 +381,6 @@ styles.textContent = `
     border-radius: 20px;
     border: 1px solid;
     letter-spacing: 0.5px;
-    margin-left: auto;
   }
 
   .project-title {
@@ -442,8 +509,7 @@ styles.textContent = `
     .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .project-card-body { padding: 16px 18px; }
     .project-title { font-size: 0.95rem; }
-    .project-icon-wrap { width: 38px; height: 38px; }
-    .project-icon-wrap svg { width: 20px; height: 20px; }
+    .project-image-container { height: 160px; }
   }
 
   /* Mobile: single column */
@@ -455,6 +521,7 @@ styles.textContent = `
     .project-card-body { padding: 16px; }
     .project-title { font-size: 1rem; }
     .projects-tab { padding: 7px 16px; font-size: 0.82rem; }
+    .project-image-container { height: 180px; }
   }
 `
 document.head.appendChild(styles)

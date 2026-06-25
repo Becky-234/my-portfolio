@@ -7,9 +7,9 @@ const education = [
     degree: 'Apprenticeship Training in Software Engineering',
     institution: 'REFECTORY ACADEMY',
     location: 'Kampala, Uganda',
-    period: 'October 2025 – Present',
-    status: 'In Progress',
-    description: 'Studying core software engineering principles including system design, and software architecture.',
+    period: 'October 2025 – June 2026',
+    status: 'Completed',
+    description: 'Studied core software engineering principles including system design, and software architecture.',
     highlights: ['Software Architecture', 'Mobile Development', 'Web Development', 'Problem Solving'],
     color: '#7b68ee'
   },
