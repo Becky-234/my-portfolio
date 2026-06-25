@@ -101,19 +101,16 @@ function ProjectCard({ project, index }) {
     >
       {/* Image Section */}
       <div className="project-image-container">
-        <img 
-          src={project.image} 
+        <img
+          src={project.image}
           alt={project.title}
           className="project-image"
           onError={(e) => {
             e.target.src = 'https://via.placeholder.com/600x400/2d2d2d/7b68ee?text=' + project.title
           }}
         />
-        <div className="project-image-overlay">
-          <div className="project-icon-wrap" style={{ background: `${project.accentColor}33`, border: `2px solid ${project.accentColor}66`, color: project.accentColor }}>
-            {project.icon}
-          </div>
-        </div>
+        {/* Subtle gradient overlay at bottom only — no icon box */}
+        <div className="project-image-overlay" />
       </div>
 
       {/* Content */}
@@ -319,7 +316,8 @@ styles.textContent = `
   .project-image-container {
     position: relative;
     width: 100%;
-    height: 200px;
+    /* Use aspect-ratio so the image shows in full without arbitrary cropping */
+    aspect-ratio: 16 / 9;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.3);
   }
@@ -327,37 +325,26 @@ styles.textContent = `
   .project-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    /* contain shows the whole image; use cover if you prefer fill-and-crop */
+    object-fit: contain;
+    object-position: center top;
+    background: rgba(0, 0, 0, 0.45);
     transition: transform 0.5s ease;
   }
 
   .project-card:hover .project-image {
-    transform: scale(1.05);
+    transform: scale(1.03);
   }
 
+  /* Subtle bottom-only gradient so the content area bleeds in nicely */
   .project-image-overlay {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-    padding: 16px;
-  }
-
-  .project-image-overlay .project-icon-wrap {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+    height: 60px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.55), transparent);
+    pointer-events: none;
   }
 
   .project-card-body {
@@ -509,7 +496,6 @@ styles.textContent = `
     .projects-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .project-card-body { padding: 16px 18px; }
     .project-title { font-size: 0.95rem; }
-    .project-image-container { height: 160px; }
   }
 
   /* Mobile: single column */
@@ -521,7 +507,6 @@ styles.textContent = `
     .project-card-body { padding: 16px; }
     .project-title { font-size: 1rem; }
     .projects-tab { padding: 7px 16px; font-size: 0.82rem; }
-    .project-image-container { height: 180px; }
   }
 `
 document.head.appendChild(styles)
