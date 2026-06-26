@@ -31,7 +31,7 @@ function Footer() {
               <li><a href="#about">About</a></li>
               <li><a href="#skills">Skills</a></li>
               <li><a href="#projects">Projects</a></li>
-               <li><a href="#education">Education</a></li>
+              <li><a href="#education">Certifications</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
           </div>
@@ -79,15 +79,23 @@ function Footer() {
   )
 }
 
-// CSS AT THE BOTTOM
 const styles = document.createElement('style')
 styles.textContent = `
+  /* Ensure html/body never show white beneath the footer */
+  html, body, #root {
+    background: #0a0a2a;
+    min-height: 100%;
+  }
+
   .footer {
-    background: rgba(10, 10, 42, 0.6);
+    background: rgba(10, 10, 42, 0.95);
     backdrop-filter: blur(15px);
     border-top: 1px solid rgba(138, 43, 226, 0.3);
     padding: 50px 20px 20px;
-    margin-top: 50px;
+    /* No margin-top — let the section above butt up flush */
+    margin-top: 0;
+    /* Extend background to the very bottom edge of the viewport */
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
   }
 
   .footer-container {
@@ -222,7 +230,7 @@ styles.textContent = `
 
   @media (max-width: 768px) {
     .footer { padding: 40px 20px 20px; }
-    .footer-content { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .footer-content { grid-template-columns: 1fr; gap: 30px; }
     .footer-section { text-align: center; }
     .footer-tagline { max-width: 100%; }
     .footer-contact { justify-content: center; }
