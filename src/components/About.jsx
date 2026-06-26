@@ -29,7 +29,7 @@ function About() {
           </h1>
 
           <h2 ref={subheadingRef} className="about-subheading reveal" style={{ transitionDelay: '0.1s' }}>
-            Frontend focucused Full Stack Developer, Problem solver
+            Frontend focused Full Stack Developer, Problem solver
           </h2>
 
           <p ref={para1Ref} className="about-paragraph reveal reveal-left" style={{ transitionDelay: '0.2s' }}>
