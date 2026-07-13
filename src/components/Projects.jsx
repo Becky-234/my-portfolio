@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { FiExternalLink, FiGithub } from 'react-icons/fi'
-import { SiRender, SiNetlify, SiExpo } from 'react-icons/si'
+import { SiRender, SiNetlify, SiExpo, SiDigitalocean } from 'react-icons/si'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 import ekiEcommerce from '../assets/eki.png'
@@ -20,8 +20,8 @@ const projects = [
     category: 'Web App',
     image: ekiEcommerce,
     tags: ['React.js', 'Python', 'PostgreSQL'],
-    deployedWith: <SiRender size={14} />,
-    deployLabel: 'Render'
+    deployedWith: <SiDigitalocean size={14} />,
+    deployLabel: 'DigitalOcean'
   },
   {
     title: 'EKI Buyer App',
@@ -88,7 +88,8 @@ const projects = [
 const ALL_TABS = ['All', 'Web App', 'Mobile App', 'Website']
 
 /* ── Desktop browser frame ── */
-function DesktopFrame({ image, title, accentColor }) {
+function DesktopFrame({ image, title, accentColor, url }) {
+  const displayUrl = url ? url.replace(/^https?:\/\//, '') : 'localhost'
   return (
     <div className="frame-desktop" style={{ '--accent': accentColor }}>
       {/* Browser chrome */}
@@ -99,7 +100,7 @@ function DesktopFrame({ image, title, accentColor }) {
           <span className="frame-dot" style={{ background: '#28c840' }} />
         </div>
         <div className="frame-desktop-url">
-          <span className="frame-desktop-url-text">● joineki.com</span>
+          <span className="frame-desktop-url-text">● {displayUrl}</span>
         </div>
         <div className="frame-desktop-actions" />
       </div>
@@ -170,7 +171,7 @@ function ProjectRow({ project, index }) {
       >
         {isMobile
           ? <MobileFrame image={project.image} title={project.title} accentColor={project.accentColor} />
-          : <DesktopFrame image={project.image} title={project.title} accentColor={project.accentColor} />
+          : <DesktopFrame image={project.image} title={project.title} accentColor={project.accentColor} url={project.link} />
         }
       </div>
 
