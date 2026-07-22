@@ -9,6 +9,7 @@ import ekiSeller from '../assets/eki-seller.png'
 import mayondo from '../assets/mayondo.png'
 import weather from '../assets/weather.png'
 import voguevalt from '../assets/voguevalt.png'
+import ssebbale from '../assets/ssebbale.png'
 
 const projects = [
   {
@@ -72,6 +73,18 @@ const projects = [
     deployLabel: 'Netlify'
   },
   {
+    title: 'Ssebbale Stitches',
+    description: 'A tailoring management system for tracking client orders, measurements, and delivery timelines. Built to help bespoke tailors manage their workflow and keep operations organised in one place.',
+    link: 'https://ssebbale-stitches.vercel.app/',
+    github: null,
+    accentColor: '#C084FC',
+    category: 'Web App',
+    image: ssebbale,
+    tags: ['React', 'TypeScript', 'Python'],
+    deployedWith: null,
+    deployLabel: 'Vercel'
+  },
+  {
     title: 'VogueValt Fashion Website',
     description: 'Modern e-commerce fashion website with responsive design, product browsing, and a clean shopping interface. A stylish showcase of frontend skills with a focus on UI polish.',
     link: 'https://github.com/Becky-234/my-first-website',
@@ -89,7 +102,8 @@ const ALL_TABS = ['All', 'Web App', 'Mobile App', 'Website']
 
 /* ── Desktop browser frame ── */
 function DesktopFrame({ image, title, accentColor, url }) {
-  const displayUrl = url ? url.replace(/^https?:\/\//, '') : 'localhost'
+  const displayUrl = url ? url.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'localhost'
+
   return (
     <div className="frame-desktop" style={{ '--accent': accentColor }}>
       {/* Browser chrome */}
@@ -107,11 +121,11 @@ function DesktopFrame({ image, title, accentColor, url }) {
       {/* Screen */}
       <div className="frame-desktop-screen">
         <img
-          src={image}
+          src={image || `https://via.placeholder.com/900x560/1a1a2e/7b68ee?text=${encodeURIComponent(title)}`}
           alt={title}
           className="frame-desktop-img"
           onError={(e) => {
-            e.target.src = `https://via.placeholder.com/900x560/1a1a2e/7b68ee?text=${title}`
+            e.target.src = `https://via.placeholder.com/900x560/1a1a2e/7b68ee?text=${encodeURIComponent(title)}`
           }}
         />
         <div className="frame-screen-shine" />
@@ -212,10 +226,12 @@ function ProjectRow({ project, index }) {
         </div>
 
         <div className="proj-footer">
-          <span className="proj-deploy">
-            <span className="proj-deploy-icon">{project.deployedWith}</span>
-            {project.deployLabel}
-          </span>
+          {project.deployedWith || project.deployLabel ? (
+            <span className="proj-deploy">
+              {project.deployedWith && <span className="proj-deploy-icon">{project.deployedWith}</span>}
+              {project.deployLabel}
+            </span>
+          ) : null}
           <div className="proj-btns">
             {project.github && (
               <a href={project.github} className="proj-btn-icon" target="_blank" rel="noopener noreferrer" title="View Code">
