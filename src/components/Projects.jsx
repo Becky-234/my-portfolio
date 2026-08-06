@@ -22,7 +22,8 @@ const projects = [
     image: ekiEcommerce,
     tags: ['React.js', 'Python', 'PostgreSQL'],
     deployedWith: <SiDigitalocean size={14} />,
-    deployLabel: 'DigitalOcean'
+    deployLabel: 'DigitalOcean',
+    inProgress: false
   },
   {
     title: 'EKI Buyer App',
@@ -34,7 +35,8 @@ const projects = [
     image: ekiBuyer,
     tags: ['React Native', 'Expo', 'Python', 'Paystack'],
     deployedWith: <SiExpo size={14} />,
-    deployLabel: 'Expo'
+    deployLabel: 'Expo',
+    inProgress: true
   },
   {
     title: 'EKI Seller: Vendor App',
@@ -46,7 +48,8 @@ const projects = [
     image: ekiSeller,
     tags: ['React Native', 'Expo', 'Python', 'PostgreSQL'],
     deployedWith: <SiExpo size={14} />,
-    deployLabel: 'Expo'
+    deployLabel: 'Expo',
+    inProgress: true
   },
   {
     title: 'Mayondo Wood & Furniture Management System',
@@ -58,7 +61,8 @@ const projects = [
     image: mayondo,
     tags: ['HTML5', 'CSS3', 'JavaScript', 'Node.js', 'MongoDB'],
     deployedWith: <SiRender size={14} />,
-    deployLabel: 'Render'
+    deployLabel: 'Render',
+    inProgress: false
   },
   {
     title: 'Weather Forecast Application',
@@ -70,7 +74,8 @@ const projects = [
     image: weather,
     tags: ['HTML5', 'CSS3', 'JavaScript', 'Weather API', 'Geolocation'],
     deployedWith: <SiNetlify size={14} />,
-    deployLabel: 'Netlify'
+    deployLabel: 'Netlify',
+    inProgress: false
   },
   {
     title: 'Ssebbale Stitches',
@@ -82,7 +87,8 @@ const projects = [
     image: ssebbale,
     tags: ['React', 'TypeScript', 'Python'],
     deployedWith: null,
-    deployLabel: 'Vercel'
+    deployLabel: 'Vercel',
+    inProgress: true   // live but still being worked on
   },
   {
     title: 'VogueValt Fashion Website',
@@ -94,7 +100,8 @@ const projects = [
     image: voguevalt,
     tags: ['HTML5', 'CSS3', 'Responsive'],
     deployedWith: <FiGithub size={14} />,
-    deployLabel: 'GitHub'
+    deployLabel: 'GitHub',
+    inProgress: false
   }
 ]
 
@@ -106,7 +113,6 @@ function DesktopFrame({ image, title, accentColor, url }) {
 
   return (
     <div className="frame-desktop" style={{ '--accent': accentColor }}>
-      {/* Browser chrome */}
       <div className="frame-desktop-bar">
         <div className="frame-desktop-dots">
           <span className="frame-dot" style={{ background: '#ff5f57' }} />
@@ -118,7 +124,6 @@ function DesktopFrame({ image, title, accentColor, url }) {
         </div>
         <div className="frame-desktop-actions" />
       </div>
-      {/* Screen */}
       <div className="frame-desktop-screen">
         <img
           src={image || `https://via.placeholder.com/900x560/1a1a2e/7b68ee?text=${encodeURIComponent(title)}`}
@@ -130,7 +135,6 @@ function DesktopFrame({ image, title, accentColor, url }) {
         />
         <div className="frame-screen-shine" />
       </div>
-      {/* Stand */}
       <div className="frame-desktop-stand">
         <div className="frame-desktop-neck" />
         <div className="frame-desktop-base" />
@@ -143,11 +147,9 @@ function DesktopFrame({ image, title, accentColor, url }) {
 function MobileFrame({ image, title, accentColor }) {
   return (
     <div className="frame-mobile" style={{ '--accent': accentColor }}>
-      {/* Notch */}
       <div className="frame-mobile-notch">
         <div className="frame-mobile-camera" />
       </div>
-      {/* Screen */}
       <div className="frame-mobile-screen">
         <img
           src={image}
@@ -159,9 +161,7 @@ function MobileFrame({ image, title, accentColor }) {
         />
         <div className="frame-screen-shine" />
       </div>
-      {/* Home indicator */}
       <div className="frame-mobile-home" />
-      {/* Side buttons */}
       <div className="frame-mobile-btn frame-mobile-btn--vol-up" />
       <div className="frame-mobile-btn frame-mobile-btn--vol-down" />
       <div className="frame-mobile-btn frame-mobile-btn--power" />
@@ -177,7 +177,7 @@ function ProjectRow({ project, index }) {
 
   return (
     <div className="proj-row">
-      {/* Image / Frame side */}
+      {/* Frame side */}
       <div
         ref={imageRef}
         className={`proj-image-side reveal ${isEven ? 'reveal-left' : 'reveal-right'}`}
@@ -209,6 +209,10 @@ function ProjectRow({ project, index }) {
           >
             {project.category}
           </span>
+          {/* In Progress badge — shown alongside category when flagged */}
+          {project.inProgress && (
+            <span className="proj-wip-badge">In Progress</span>
+          )}
         </div>
 
         <h3 className="proj-title">{project.title}</h3>
@@ -226,19 +230,19 @@ function ProjectRow({ project, index }) {
         </div>
 
         <div className="proj-footer">
-          {project.deployedWith || project.deployLabel ? (
+          {(project.deployedWith || project.deployLabel) && (
             <span className="proj-deploy">
               {project.deployedWith && <span className="proj-deploy-icon">{project.deployedWith}</span>}
               {project.deployLabel}
             </span>
-          ) : null}
+          )}
           <div className="proj-btns">
             {project.github && (
               <a href={project.github} className="proj-btn-icon" target="_blank" rel="noopener noreferrer" title="View Code">
                 <FiGithub size={16} />
               </a>
             )}
-            {project.link ? (
+            {project.link && (
               <a
                 href={project.link}
                 className="proj-btn-primary"
@@ -248,8 +252,6 @@ function ProjectRow({ project, index }) {
               >
                 View Project <FiExternalLink size={13} />
               </a>
-            ) : (
-              <span className="proj-btn-wip">In Progress</span>
             )}
           </div>
         </div>
@@ -300,9 +302,6 @@ function Projects() {
 
 const styles = document.createElement('style')
 styles.textContent = `
-  /* ─────────────────────────────────────────
-     SECTION & HEADER
-  ───────────────────────────────────────── */
   .projects-section {
     padding: 100px 0;
     background: transparent;
@@ -348,7 +347,6 @@ styles.textContent = `
     letter-spacing: 1px;
   }
 
-  /* ── Tabs ── */
   .projects-tabs {
     display: flex;
     justify-content: center;
@@ -383,9 +381,6 @@ styles.textContent = `
     box-shadow: 0 4px 15px rgba(123, 104, 238, 0.3);
   }
 
-  /* ─────────────────────────────────────────
-     PROJECT ROWS
-  ───────────────────────────────────────── */
   .projects-list {
     display: flex;
     flex-direction: column;
@@ -414,9 +409,7 @@ styles.textContent = `
   }
   .proj-row:last-child::after { display: none; }
 
-  /* ─────────────────────────────────────────
-     DESKTOP FRAME
-  ───────────────────────────────────────── */
+  /* DESKTOP FRAME */
   .frame-desktop {
     display: flex;
     flex-direction: column;
@@ -431,7 +424,6 @@ styles.textContent = `
             drop-shadow(0 0 40px color-mix(in srgb, var(--accent) 20%, transparent));
   }
 
-  /* Browser chrome bar */
   .frame-desktop-bar {
     width: 100%;
     height: 34px;
@@ -446,11 +438,7 @@ styles.textContent = `
     box-sizing: border-box;
   }
 
-  .frame-desktop-dots {
-    display: flex;
-    gap: 5px;
-    flex-shrink: 0;
-  }
+  .frame-desktop-dots { display: flex; gap: 5px; flex-shrink: 0; }
 
   .frame-dot {
     width: 10px;
@@ -478,12 +466,8 @@ styles.textContent = `
     letter-spacing: 0.2px;
   }
 
-  .frame-desktop-actions {
-    width: 40px;
-    flex-shrink: 0;
-  }
+  .frame-desktop-actions { width: 40px; flex-shrink: 0; }
 
-  /* Screen */
   .frame-desktop-screen {
     width: 100%;
     position: relative;
@@ -503,12 +487,7 @@ styles.textContent = `
     object-position: top;
   }
 
-  /* Stand */
-  .frame-desktop-stand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+  .frame-desktop-stand { display: flex; flex-direction: column; align-items: center; }
 
   .frame-desktop-neck {
     width: 18px;
@@ -527,9 +506,7 @@ styles.textContent = `
     border-top: none;
   }
 
-  /* ─────────────────────────────────────────
-     MOBILE FRAME
-  ───────────────────────────────────────── */
+  /* MOBILE FRAME */
   .frame-mobile {
     width: 220px;
     margin: 0 auto;
@@ -537,9 +514,7 @@ styles.textContent = `
     background: linear-gradient(160deg, #2a2a3a, #1a1a26);
     border-radius: 36px;
     border: 2px solid rgba(255,255,255,0.14);
-    box-shadow:
-      inset 0 0 0 1px rgba(255,255,255,0.05),
-      0 24px 60px rgba(0,0,0,0.55);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05), 0 24px 60px rgba(0,0,0,0.55);
     padding: 14px 10px 20px;
     box-sizing: border-box;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
@@ -555,7 +530,6 @@ styles.textContent = `
     filter: drop-shadow(0 30px 50px rgba(0,0,0,0.5));
   }
 
-  /* Notch */
   .frame-mobile-notch {
     width: 70px;
     height: 20px;
@@ -577,7 +551,6 @@ styles.textContent = `
     border: 1px solid rgba(255,255,255,0.1);
   }
 
-  /* Screen */
   .frame-mobile-screen {
     border-radius: 20px;
     overflow: hidden;
@@ -595,7 +568,6 @@ styles.textContent = `
     object-position: top;
   }
 
-  /* Home indicator */
   .frame-mobile-home {
     width: 60px;
     height: 4px;
@@ -604,7 +576,6 @@ styles.textContent = `
     margin: 10px auto 0;
   }
 
-  /* Side buttons */
   .frame-mobile-btn {
     position: absolute;
     background: linear-gradient(180deg, #2e2e3e, #1e1e2a);
@@ -612,54 +583,26 @@ styles.textContent = `
     right: -3px;
   }
 
-  .frame-mobile-btn--power {
-    width: 3px;
-    height: 50px;
-    top: 90px;
-  }
+  .frame-mobile-btn--power { width: 3px; height: 50px; top: 90px; }
+  .frame-mobile-btn--vol-up { width: 3px; height: 32px; top: 80px; right: auto; left: -3px; }
+  .frame-mobile-btn--vol-down { width: 3px; height: 32px; top: 122px; right: auto; left: -3px; }
 
-  .frame-mobile-btn--vol-up {
-    width: 3px;
-    height: 32px;
-    top: 80px;
-    right: auto;
-    left: -3px;
-  }
-
-  .frame-mobile-btn--vol-down {
-    width: 3px;
-    height: 32px;
-    top: 122px;
-    right: auto;
-    left: -3px;
-  }
-
-  /* Shared screen shine */
   .frame-screen-shine {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(255,255,255,0.06) 0%,
-      transparent 45%,
-      rgba(0,0,0,0.08) 100%
-    );
+    background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 45%, rgba(0,0,0,0.08) 100%);
     pointer-events: none;
   }
 
-  /* ─────────────────────────────────────────
-     TEXT SIDE
-  ───────────────────────────────────────── */
-  .proj-text-side {
-    display: flex;
-    flex-direction: column;
-  }
+  /* TEXT SIDE */
+  .proj-text-side { display: flex; flex-direction: column; }
 
   .proj-meta-row {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
     margin-bottom: 16px;
+    flex-wrap: wrap;
   }
 
   .proj-number {
@@ -678,6 +621,25 @@ styles.textContent = `
     border: 1px solid;
     letter-spacing: 0.8px;
     text-transform: uppercase;
+  }
+
+  /* In Progress badge — sits in the meta row next to the category */
+  .proj-wip-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.12);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    /* Subtle pulse to draw attention */
+    animation: wip-pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes wip-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.55; }
   }
 
   .proj-title {
@@ -788,20 +750,7 @@ styles.textContent = `
     filter: brightness(1.15);
   }
 
-  .proj-btn-wip {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #fbbf24;
-    background: rgba(251, 191, 36, 0.12);
-    border: 1px solid rgba(251, 191, 36, 0.3);
-    padding: 6px 14px;
-    border-radius: 25px;
-    letter-spacing: 0.3px;
-  }
-
-  /* ─────────────────────────────────────────
-     RESPONSIVE
-  ───────────────────────────────────────── */
+  /* RESPONSIVE */
   @media (max-width: 1024px) {
     .proj-row { padding: 60px 40px; gap: 40px; }
   }
@@ -816,16 +765,12 @@ styles.textContent = `
       gap: 36px;
     }
 
-    /* Reset alternating order — image always on top */
     .proj-row:nth-child(even) .proj-image-side,
-    .proj-row:nth-child(even) .proj-text-side {
-      order: unset;
-    }
+    .proj-row:nth-child(even) .proj-text-side { order: unset; }
 
     .proj-row::after { left: 20px; right: 20px; }
     .proj-title { font-size: 1.4rem; }
     .proj-number { font-size: 2rem; }
-
     .frame-mobile { width: 180px; }
     .frame-mobile-img { max-height: 300px; }
   }
