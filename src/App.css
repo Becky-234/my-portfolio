@@ -8,12 +8,32 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* ── Scroll fix: ONE scrollbar on html, body never scrolls independently ── */
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;       /* pins the scrollbar to html permanently */
+  overflow-x: hidden;
+  background: #0a0a2a;
+}
+
+body {
+  overflow: visible;        /* must NOT be hidden/auto/scroll */
+  min-height: 100%;
+  background: #0a0a2a;
+}
+
+#root {
+  overflow: visible;        /* must NOT be hidden/auto/scroll */
+  min-height: 100%;
+  background: #0a0a2a;
+}
+
 /* GALAXY BACKGROUND */
 .galaxy-container {
   position: relative;
   min-height: 100vh;
   background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
-  overflow-x: visible;
+  /* NO overflow set here — any value other than visible creates a nested scroller */
 }
 
 .stars {
@@ -81,6 +101,7 @@
 .content-wrapper {
   position: relative;
   z-index: 10;
+  /* NO overflow set here */
 }
 
 @keyframes twinkle {
@@ -109,23 +130,18 @@
   }
 }
 
-/* Smooth scroll behavior */
-html {
-  scroll-behavior: smooth;
-}
-
-/* REMOVED FADE-IN ANIMATION - sections are always visible */
+/* Sections always visible */
 .content-wrapper section {
   opacity: 1;
   transform: translateY(0);
 }
 
-
-/* Scroll Animation Base States */
+/* ── Scroll reveal base states ── */
 .reveal {
   opacity: 0;
   transform: translateY(60px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .reveal.reveal-left {
