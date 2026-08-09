@@ -1,16 +1,43 @@
 import React, { useState, useEffect } from 'react'
-import { FiMail, FiUser, FiMessageSquare, FiSend, FiGithub, FiLinkedin, FiMapPin, FiCheck, FiAlertCircle } from 'react-icons/fi'
+import { FiMail, FiUser, FiMessageSquare, FiSend, FiGithub, FiLinkedin, FiMapPin, FiCheck, FiAlertCircle, FiTwitter } from 'react-icons/fi'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const EMAILJS_SERVICE_ID  = 'service_qwq4ziw'
-const EMAILJS_TEMPLATE_ID = 'template_2boblws' 
+const EMAILJS_TEMPLATE_ID = 'template_2boblws'
 const EMAILJS_PUBLIC_KEY  = 'rqmX717gd7xt_oJyo'
 
+const socials = [
+  {
+    icon: <FiLinkedin size={20} />,
+    label: 'LinkedIn',
+    sub: 'rebecca-kirabo',
+    href: 'https://www.linkedin.com/in/rebecca-kirabo-b841002ab/',
+    color: '#0a66c2'
+  },
+  {
+    icon: <FiGithub size={20} />,
+    label: 'GitHub',
+    sub: 'Becky-234',
+    href: 'https://github.com/Becky-234',
+    color: '#7b68ee'
+  },
+  {
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+      </svg>
+    ),
+    label: 'X / Twitter',
+    sub: '@KiraboReberbyk',
+    href: 'https://twitter.com/@KiraboReberbyk',
+    color: '#e2e8f0'
+  },
+]
+
 function Contact() {
-  const headingRef    = useScrollReveal({ threshold: 0.2 })
-  const subtitleRef   = useScrollReveal({ threshold: 0.2 })
-  const leftRef       = useScrollReveal({ threshold: 0.15 })
-  const rightRef      = useScrollReveal({ threshold: 0.15 })
+  const headingRef  = useScrollReveal({ threshold: 0.2 })
+  const leftRef     = useScrollReveal({ threshold: 0.15 })
+  const rightRef    = useScrollReveal({ threshold: 0.15 })
 
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [errors, setErrors]     = useState({ name: '', email: '', message: '' })
@@ -25,216 +52,216 @@ function Contact() {
     document.head.appendChild(script)
   }, [])
 
-  const validateName    = (name)    => {
-    if (!name) return 'Name is required'
-    if (name.length < 2) return 'Name must be at least 2 characters'
-    if (name.length > 50) return 'Name must be less than 50 characters'
-    if (!/^[a-zA-Z\s]+$/.test(name)) return 'Name can only contain letters and spaces'
-    return ''
-  }
-  const validateEmail   = (email)   => {
-    if (!email) return 'Email is required'
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Enter a valid email address (e.g., name@example.com)'
-    if (email.length > 100) return 'Email must be less than 100 characters'
-    return ''
-  }
-  const validateMessage = (message) => {
-    if (!message) return 'Message is required'
-    if (message.length < 10) return 'Message must be at least 10 characters'
-    if (message.length > 1000) return 'Message must be less than 1000 characters'
-    return ''
+  const validateName    = v => !v ? 'Name is required' : v.length < 2 ? 'At least 2 characters' : v.length > 50 ? 'Max 50 characters' : !/^[a-zA-Z\s]+$/.test(v) ? 'Letters and spaces only' : ''
+  const validateEmail   = v => !v ? 'Email is required' : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v) ? 'Enter a valid email address' : v.length > 100 ? 'Max 100 characters' : ''
+  const validateMessage = v => !v ? 'Message is required' : v.length < 10 ? 'At least 10 characters' : v.length > 1000 ? 'Max 1000 characters' : ''
+
+  const validate = (name, value) =>
+    name === 'name' ? validateName(value) : name === 'email' ? validateEmail(value) : validateMessage(value)
+
+  const handleChange = ({ target: { name, value } }) => {
+    setFormData(p => ({ ...p, [name]: value }))
+    if (touched[name]) setErrors(p => ({ ...p, [name]: validate(name, value) }))
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
-    if (touched[name]) {
-      const error = name === 'name' ? validateName(value)
-                  : name === 'email' ? validateEmail(value)
-                  : validateMessage(value)
-      setErrors(prev => ({ ...prev, [name]: error }))
-    }
+  const handleBlur = ({ target: { name, value } }) => {
+    setTouched(p => ({ ...p, [name]: true }))
+    setErrors(p => ({ ...p, [name]: validate(name, value) }))
   }
 
-  const handleBlur = (e) => {
-    const { name, value } = e.target
-    setTouched(prev => ({ ...prev, [name]: true }))
-    const error = name === 'name' ? validateName(value)
-                : name === 'email' ? validateEmail(value)
-                : validateMessage(value)
-    setErrors(prev => ({ ...prev, [name]: error }))
-  }
-
-  const validateForm = () => {
-    const nameError    = validateName(formData.name)
-    const emailError   = validateEmail(formData.email)
-    const messageError = validateMessage(formData.message)
-    setErrors({ name: nameError, email: emailError, message: messageError })
+  const validateAll = () => {
+    const e = { name: validateName(formData.name), email: validateEmail(formData.email), message: validateMessage(formData.message) }
+    setErrors(e)
     setTouched({ name: true, email: true, message: true })
-    return !nameError && !emailError && !messageError
+    return !e.name && !e.email && !e.message
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!validateForm()) return
+    if (!validateAll()) return
     setStatus('sending')
     setErrorMsg('')
     try {
       await window.emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-        from_name:  formData.name,
-        from_email: formData.email,
-        message:    formData.message,
-        to_email:   'bkirabo853@gmail.com',
+        from_name: formData.name, from_email: formData.email,
+        message: formData.message, to_email: 'bkirabo853@gmail.com',
       })
       setStatus('success')
       setFormData({ name: '', email: '', message: '' })
       setTouched({ name: false, email: false, message: false })
       setErrors({ name: '', email: '', message: '' })
       setTimeout(() => setStatus('idle'), 5000)
-    } catch (err) {
-      console.error('EmailJS error:', err)
+    } catch {
       setErrorMsg('Something went wrong. Please try again or email me directly at bkirabo853@gmail.com')
       setStatus('error')
       setTimeout(() => setStatus('idle'), 6000)
     }
   }
 
-  const isFormValid = () =>
+  const isValid = () =>
     formData.name && formData.email && formData.message &&
-    !validateName(formData.name) &&
-    !validateEmail(formData.email) &&
-    !validateMessage(formData.message)
+    !validateName(formData.name) && !validateEmail(formData.email) && !validateMessage(formData.message)
+
+  const fieldState = (name) =>
+    touched[name] && errors[name] ? 'error' : touched[name] && !errors[name] && formData[name] ? 'success' : ''
 
   return (
-    <section id="contact" className="contactSection">
-      <div className="contactContainer">
+    <section id="contact" className="ct-section">
 
-        <h1 ref={headingRef} className="contactHeading reveal">Get In Touch</h1>
-        <p ref={subtitleRef} className="contactSubtitle reveal" style={{ transitionDelay: '0.1s' }}>
-          Have a project in mind? I'd love to hear from you.
-        </p>
+      {/* Background orb */}
+      <div className="ct-bg-orb" aria-hidden="true" />
 
-        <div className="contactTwoColumns">
+      <div className="ct-container">
 
-          {/* LEFT COLUMN */}
-          <div ref={leftRef} className="contactLeft reveal reveal-left" style={{ transitionDelay: '0.2s' }}>
-            <div className="contactInfo">
-              <h3 className="contactInfoTitle">Connect with me</h3>
-              <p className="contactInfoText">Feel free to reach out through any of these platforms</p>
-              <div className="contactLocation">
-                <FiMapPin size={20} />
-                <span>Kampala, Uganda</span>
-              </div>
-              <div className="contactLocation">
-                <FiMail size={20} />
-                <span>bkirabo853@gmail.com</span>
+        {/* Header */}
+        <div className="ct-header">
+          <p ref={headingRef} className="ct-eyebrow reveal">
+            <span className="ct-eyebrow-line" aria-hidden="true" />
+            Let's talk
+          </p>
+          <h1 className="ct-heading">
+            Get In <span className="ct-heading-outline">Touch</span>
+          </h1>
+          <p className="ct-subheading">
+            Have a project in mind? I'd love to hear from you.
+          </p>
+        </div>
+
+        {/* Two columns */}
+        <div className="ct-cols">
+
+          {/* LEFT — info */}
+          <div ref={leftRef} className="ct-left reveal reveal-left" style={{ transitionDelay: '0.1s' }}>
+
+            {/* Availability tag */}
+            <div className="ct-available">
+              <span className="ct-available-dot" aria-hidden="true" />
+              Available for freelance &amp; full-time roles
+            </div>
+
+            {/* Info card */}
+            <div className="ct-info-card">
+              <h3 className="ct-info-title">Connect with me</h3>
+              <p className="ct-info-sub">Feel free to reach out through any of these platforms</p>
+
+              <div className="ct-contact-items">
+                <div className="ct-contact-item">
+                  <span className="ct-contact-icon"><FiMapPin size={15} /></span>
+                  <span>Kampala, Uganda</span>
+                </div>
+                <div className="ct-contact-item">
+                  <span className="ct-contact-icon"><FiMail size={15} /></span>
+                  <a href="mailto:bkirabo853@gmail.com" className="ct-contact-link">bkirabo853@gmail.com</a>
+                </div>
               </div>
             </div>
 
-            <div className="socialLinksContainer">
-              <a href="https://www.linkedin.com/in/rebecca-kirabo-b841002ab/" target="_blank" className="socialLink" rel="noopener noreferrer">
-                <FiLinkedin size={28} />
-                <span>LinkedIn</span>
-              </a>
-              <a href="https://github.com/Becky-234" target="_blank" className="socialLink" rel="noopener noreferrer">
-                <FiGithub size={28} />
-                <span>GitHub</span>
-              </a>
+            {/* Social links */}
+            <div className="ct-socials">
+              {socials.map((s, i) => (
+                <a
+                  key={i}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="ct-social-link"
+                  style={{ '--sc': s.color }}
+                >
+                  <span className="ct-social-icon">{s.icon}</span>
+                  <div className="ct-social-text">
+                    <span className="ct-social-label">{s.label}</span>
+                    <span className="ct-social-sub">{s.sub}</span>
+                  </div>
+                  <span className="ct-social-arrow">→</span>
+                </a>
+              ))}
             </div>
+
           </div>
 
-          {/* RIGHT COLUMN - FORM */}
-          <div ref={rightRef} className="contactRight reveal reveal-right" style={{ transitionDelay: '0.3s' }}>
-            <form className="contactForm" onSubmit={handleSubmit} noValidate>
-              <div className="formRow">
-                <div className="formGroup">
-                  <label className="formLabel">
-                    <FiUser size={16} />
-                    Your Name <span className="required">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    required
-                    placeholder="Enter your name"
-                    className={`formInput ${touched.name && errors.name ? 'error' : touched.name && !errors.name ? 'success' : ''}`}
-                    disabled={status === 'sending' || status === 'success'}
-                  />
-                  {touched.name && errors.name && <div className="errorMessage">{errors.name}</div>}
-                  {touched.name && !errors.name && formData.name && <div className="successMessage">✓ Valid name</div>}
-                </div>
+          {/* RIGHT — form */}
+          <div ref={rightRef} className="ct-right reveal reveal-right" style={{ transitionDelay: '0.2s' }}>
+            <form className="ct-form" onSubmit={handleSubmit} noValidate>
 
-                <div className="formGroup">
-                  <label className="formLabel">
-                    <FiMail size={16} />
-                    Your Email <span className="required">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    required
-                    placeholder="Enter your email"
-                    className={`formInput ${touched.email && errors.email ? 'error' : touched.email && !errors.email ? 'success' : ''}`}
-                    disabled={status === 'sending' || status === 'success'}
-                  />
-                  {touched.email && errors.email && <div className="errorMessage">{errors.email}</div>}
-                  {touched.email && !errors.email && formData.email && <div className="successMessage">✓ Valid email</div>}
-                </div>
+              {/* Name + Email row */}
+              <div className="ct-form-row">
+                {['name', 'email'].map(field => (
+                  <div key={field} className="ct-field">
+                    <label className="ct-label">
+                      {field === 'name' ? <FiUser size={14} /> : <FiMail size={14} />}
+                      {field === 'name' ? 'Your Name' : 'Your Email'}
+                      <span className="ct-required" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      type={field === 'email' ? 'email' : 'text'}
+                      name={field}
+                      value={formData[field]}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      placeholder={field === 'name' ? 'Rebecca Kirabo' : 'you@example.com'}
+                      className={`ct-input ${fieldState(field)}`}
+                      disabled={status === 'sending' || status === 'success'}
+                      autoComplete={field === 'email' ? 'email' : 'name'}
+                    />
+                    {touched[field] && errors[field] && (
+                      <p className="ct-field-error"><FiAlertCircle size={11} /> {errors[field]}</p>
+                    )}
+                  </div>
+                ))}
               </div>
 
-              <div className="formGroup">
-                <label className="formLabel">
-                  <FiMessageSquare size={16} />
-                  Your Message <span className="required">*</span>
+              {/* Message */}
+              <div className="ct-field">
+                <label className="ct-label">
+                  <FiMessageSquare size={14} />
+                  Your Message
+                  <span className="ct-required" aria-hidden="true">*</span>
                 </label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  required
-                  placeholder="What would you like to say? (min. 10 characters)"
+                  placeholder="Tell me about your project or just say hi…"
                   rows="5"
-                  className={`formTextarea ${touched.message && errors.message ? 'error' : touched.message && !errors.message ? 'success' : ''}`}
+                  className={`ct-textarea ${fieldState('message')}`}
                   disabled={status === 'sending' || status === 'success'}
                 />
-                <div className="charCounter">{formData.message.length}/1000 characters</div>
-                {touched.message && errors.message && <div className="errorMessage">{errors.message}</div>}
-                {touched.message && !errors.message && formData.message && <div className="successMessage">✓ Valid message</div>}
+                <div className="ct-char-count">
+                  <span>{formData.message.length}/1000</span>
+                </div>
+                {touched.message && errors.message && (
+                  <p className="ct-field-error"><FiAlertCircle size={11} /> {errors.message}</p>
+                )}
               </div>
 
+              {/* Status banners */}
               {status === 'success' && (
-                <div className="statusMessage statusSuccess">
-                  <FiCheck size={18} />
-                  <span>Message sent! I'll get back to you soon.</span>
+                <div className="ct-banner ct-banner--success">
+                  <FiCheck size={16} /> Message sent! I'll get back to you soon.
                 </div>
               )}
               {status === 'error' && (
-                <div className="statusMessage statusError">
-                  <FiAlertCircle size={18} />
-                  <span>{errorMsg}</span>
+                <div className="ct-banner ct-banner--error">
+                  <FiAlertCircle size={16} /> {errorMsg}
                 </div>
               )}
 
+              {/* Submit */}
               <button
                 type="submit"
-                className="submitBtn"
-                disabled={status === 'sending' || status === 'success' || !isFormValid()}
+                className="ct-submit"
+                disabled={status === 'sending' || status === 'success' || !isValid()}
               >
                 {status === 'sending' ? (
-                  <><span className="spinner" />Sending...</>
+                  <><span className="ct-spinner" aria-hidden="true" /> Sending…</>
                 ) : status === 'success' ? (
-                  <><FiCheck size={18} />Sent!</>
+                  <><FiCheck size={16} /> Sent!</>
                 ) : (
-                  <><FiSend size={18} />Send Message</>
+                  <><FiSend size={16} /> Send Message</>
                 )}
               </button>
+
             </form>
           </div>
 
@@ -246,311 +273,441 @@ function Contact() {
 
 const styles = document.createElement('style')
 styles.textContent = `
-  .contactSection {
-    padding: 100px 20px;
+  /* ── Section ── */
+  .ct-section {
+    padding: 110px 60px;
     background: transparent;
-  }
-
-  .contactContainer {
-    max-width: 1000px;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .contactHeading {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 20px;
     position: relative;
-    background: linear-gradient(135deg, #ffffff, #b8a8ff, #7b68ee);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    overflow: hidden;
   }
 
-  .contactHeading::after {
-    content: "";
+  .ct-bg-orb {
     position: absolute;
-    bottom: -15px;
-    left: 50%;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,104,238,0.1) 0%, transparent 70%);
+    bottom: -100px; left: 50%;
     transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, #7b68ee, #b8a8ff);
+    pointer-events: none;
+    filter: blur(80px);
+  }
+
+  .ct-container {
+    max-width: 1060px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Header ── */
+  .ct-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .ct-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #7b68ee;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    justify-content: center;
+  }
+
+  .ct-eyebrow-line {
+    display: block;
+    width: 28px; height: 1.5px;
+    background: linear-gradient(90deg, transparent, #7b68ee);
     border-radius: 2px;
   }
 
-  .contactSubtitle {
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 50px;
-    font-size: 1.1rem;
+  .ct-heading {
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 16px;
   }
 
-  .contactTwoColumns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    text-align: left;
+  /* Outline signature — consistent across all sections */
+  .ct-heading-outline {
+    -webkit-text-stroke: 2px #7b68ee;
+    color: transparent;
+    filter: drop-shadow(0 0 16px rgba(123,104,238,0.45));
   }
 
-  .contactLeft {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    /* merge reveal-left transition with hover */
-    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .contactRight {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 30px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    /* merge reveal-right transition */
-    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .contactInfo {
-    background: rgba(255, 255, 255, 0.05);
-    padding: 25px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .contactInfoTitle {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #b8a8ff;
-    margin-bottom: 10px;
-  }
-
-  .contactInfoText {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-    line-height: 1.6;
-  }
-
-  .contactLocation {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 0.9rem;
-    padding: 12px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .contactLocation:first-of-type {
-    border-top: none;
-    padding-top: 0;
-  }
-
-  .socialLinksContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .socialLink {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    color: white;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-
-  .socialLink:hover {
-    background: rgba(123, 104, 238, 0.2);
-    border-color: rgba(123, 104, 238, 0.5);
-    transform: translateX(5px);
-  }
-
-  .socialLink span {
+  .ct-subheading {
     font-size: 1rem;
-    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.5px;
   }
 
-  .contactForm {
+  /* ── Two columns ── */
+  .ct-cols {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+
+  /* ═══════════════════
+     LEFT COLUMN
+  ═══════════════════ */
+  .ct-left {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
 
-  .formRow {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+  /* Availability tag */
+  .ct-available {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: #4ade80;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.22);
+    border-radius: 8px;
+    padding: 7px 14px;
+    letter-spacing: 0.3px;
+    width: fit-content;
   }
 
-  .formGroup {
-    text-align: left;
+  .ct-available-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 6px rgba(74,222,128,0.7);
+    animation: ct-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes ct-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(74,222,128,0.7); }
+    50%       { opacity: 0.5; box-shadow: 0 0 12px rgba(74,222,128,0.4); }
+  }
+
+  /* Info card */
+  .ct-info-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 16px;
+    padding: 22px;
+  }
+
+  .ct-info-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+  }
+
+  .ct-info-sub {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 18px;
+    line-height: 1.5;
+  }
+
+  .ct-contact-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ct-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.7);
+    padding: 10px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .ct-contact-icon {
+    color: #7b68ee;
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .ct-contact-link {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .ct-contact-link:hover { color: #b8a8ff; }
+
+  /* Social links */
+  .ct-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ct-social-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    color: white;
+    text-decoration: none;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+  }
+
+  .ct-social-link:hover {
+    background: color-mix(in srgb, var(--sc, #7b68ee) 12%, transparent);
+    border-color: color-mix(in srgb, var(--sc, #7b68ee) 45%, transparent);
+    transform: translateX(5px);
+  }
+
+  .ct-social-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--sc, #7b68ee) 15%, transparent);
+    color: var(--sc, #b8a8ff);
+    flex-shrink: 0;
+    transition: background 0.25s ease;
+  }
+
+  .ct-social-link:hover .ct-social-icon {
+    background: color-mix(in srgb, var(--sc, #7b68ee) 25%, transparent);
+  }
+
+  .ct-social-text {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
     flex: 1;
   }
 
-  .formLabel {
+  .ct-social-label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .ct-social-sub {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.2px;
+  }
+
+  .ct-social-arrow {
+    color: rgba(255,255,255,0.25);
+    font-size: 1rem;
+    transition: color 0.25s ease, transform 0.25s ease;
+  }
+
+  .ct-social-link:hover .ct-social-arrow {
+    color: rgba(255,255,255,0.7);
+    transform: translateX(3px);
+  }
+
+  /* ═══════════════════
+     RIGHT COLUMN (form)
+  ═══════════════════ */
+  .ct-right {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 20px;
+    padding: 32px;
+  }
+
+  .ct-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .ct-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .ct-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .ct-label {
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: #b8a8ff;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: 500;
+    gap: 7px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.3px;
   }
 
-  .required {
+  .ct-required {
     color: #f87171;
-    font-size: 12px;
+    font-size: 0.75rem;
+    margin-left: 2px;
   }
 
-  .formInput,
-  .formTextarea {
+  .ct-input,
+  .ct-textarea {
     width: 100%;
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    color: white;
-    font-size: 14px;
-    transition: all 0.3s ease;
+    padding: 11px 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: #ffffff;
+    font-size: 0.88rem;
+    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
     font-family: inherit;
     box-sizing: border-box;
   }
 
-  .formInput:focus,
-  .formTextarea:focus {
+  .ct-input:focus,
+  .ct-textarea:focus {
     outline: none;
     border-color: #7b68ee;
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255,255,255,0.09);
+    box-shadow: 0 0 0 3px rgba(123,104,238,0.15);
   }
 
-  .formInput.error,
-  .formTextarea.error { border-color: #f87171; }
+  .ct-input.error,  .ct-textarea.error  { border-color: #f87171; box-shadow: 0 0 0 3px rgba(248,113,113,0.12); }
+  .ct-input.success, .ct-textarea.success { border-color: #4ade80; }
 
-  .formInput.success,
-  .formTextarea.success { border-color: #4ade80; }
+  .ct-input::placeholder,
+  .ct-textarea::placeholder { color: rgba(255,255,255,0.3); }
 
-  .formInput::placeholder,
-  .formTextarea::placeholder { color: rgba(255, 255, 255, 0.4); }
+  .ct-input:disabled,
+  .ct-textarea:disabled { opacity: 0.55; cursor: not-allowed; }
 
-  .formInput:disabled,
-  .formTextarea:disabled { opacity: 0.6; cursor: not-allowed; }
-
-  .formTextarea {
+  .ct-textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 110px;
+    line-height: 1.6;
   }
 
-  .charCounter {
+  .ct-char-count {
     text-align: right;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.5);
-    margin-top: 5px;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: -2px;
   }
 
-  .errorMessage {
-    color: #f87171;
-    font-size: 12px;
-    margin-top: 5px;
+  .ct-field-error {
     display: flex;
     align-items: center;
     gap: 5px;
+    font-size: 0.72rem;
+    color: #f87171;
+    margin-top: 2px;
   }
 
-  .successMessage {
-    color: #4ade80;
-    font-size: 12px;
-    margin-top: 5px;
-  }
-
-  .statusMessage {
+  /* Status banners */
+  .ct-banner {
     display: flex;
     align-items: center;
     gap: 10px;
     padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 14px;
+    border-radius: 10px;
+    font-size: 0.84rem;
     font-weight: 500;
   }
 
-  .statusSuccess {
-    background: rgba(34, 197, 94, 0.15);
-    border: 1px solid rgba(34, 197, 94, 0.3);
+  .ct-banner--success {
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.25);
     color: #4ade80;
   }
 
-  .statusError {
-    background: rgba(239, 68, 68, 0.15);
-    border: 1px solid rgba(239, 68, 68, 0.3);
+  .ct-banner--error {
+    background: rgba(248,113,113,0.1);
+    border: 1px solid rgba(248,113,113,0.25);
     color: #f87171;
   }
 
-  .spinner {
-    width: 16px;
-    height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: white;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    display: inline-block;
-    flex-shrink: 0;
-  }
-
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-
-  .submitBtn {
+  /* Submit button */
+  .ct-submit {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 9px;
     width: 100%;
-    padding: 12px 25px;
-    background: linear-gradient(135deg, rgba(123, 104, 238, 0.8), rgba(75, 0, 130, 0.8));
+    padding: 13px 24px;
+    background: linear-gradient(135deg, #7b68ee, #4f0ea3);
     color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50px;
-    font-size: 15px;
-    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    letter-spacing: 0.4px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    box-shadow: 0 4px 20px rgba(123,104,238,0.3);
+    font-family: inherit;
   }
 
-  .submitBtn:hover:not(:disabled) {
+  .ct-submit:hover:not(:disabled) {
     transform: translateY(-2px);
-    background: linear-gradient(135deg, rgba(90, 70, 210, 0.9), rgba(55, 0, 110, 0.9));
-    box-shadow: 0 5px 15px rgba(123, 104, 238, 0.3);
+    filter: brightness(1.12);
+    box-shadow: 0 8px 30px rgba(123,104,238,0.45);
   }
 
-  .submitBtn:disabled {
-    opacity: 0.5;
+  .ct-submit:disabled {
+    opacity: 0.45;
     cursor: not-allowed;
     transform: none;
   }
 
-  @media (max-width: 768px) {
-    .contactSection { padding: 80px 20px; }
-    .contactHeading { font-size: 2.5rem; }
-    .contactTwoColumns { grid-template-columns: 1fr; gap: 30px; }
-    .contactLeft { order: 2; }
-    .contactRight { order: 1; }
-    .formRow { grid-template-columns: 1fr; gap: 20px; }
+  /* Spinner */
+  .ct-spinner {
+    width: 15px; height: 15px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: ct-spin 0.7s linear infinite;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  @keyframes ct-spin { to { transform: rotate(360deg); } }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .ct-section { padding: 90px 40px; }
+    .ct-cols { grid-template-columns: 1fr; gap: 32px; }
+    .ct-left { order: 2; }
+    .ct-right { order: 1; }
+  }
+
+  @media (max-width: 600px) {
+    .ct-section { padding: 70px 20px; }
+    .ct-heading { font-size: 2.6rem; letter-spacing: -1px; }
+    .ct-form-row { grid-template-columns: 1fr; }
+    .ct-right { padding: 22px 18px; }
   }
 
   @media (max-width: 480px) {
-    .contactSection { padding: 60px 15px; }
-    .contactHeading { font-size: 2rem; }
-    .contactSubtitle { font-size: 0.95rem; }
-    .contactRight { padding: 20px; }
-    .socialLink { padding: 12px 15px; }
+    .ct-section { padding: 60px 14px; }
+    .ct-heading { font-size: 2.1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ct-available-dot { animation: none !important; }
+    .ct-social-link, .ct-submit, .ct-input, .ct-textarea { transition: none !important; }
   }
 `
 document.head.appendChild(styles)

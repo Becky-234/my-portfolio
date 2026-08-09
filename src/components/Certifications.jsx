@@ -1,5 +1,5 @@
 import React from 'react'
-import { FiCalendar, FiMapPin, FiAward } from 'react-icons/fi'
+import { FiCalendar, FiMapPin, FiAward, FiCheckCircle } from 'react-icons/fi'
 import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const certifications = [
@@ -19,7 +19,7 @@ const certifications = [
     location: 'Kampala, Uganda',
     period: 'October 2025 – June 2026',
     status: 'Completed',
-    description: 'Studied core software engineering principles including system design, and software architecture.',
+    description: 'Studied core software engineering principles including system design and software architecture, working on real projects across web and mobile platforms.',
     highlights: ['Software Architecture', 'Mobile Development', 'Web Development', 'Problem Solving'],
     color: '#7b68ee'
   },
@@ -27,7 +27,7 @@ const certifications = [
     degree: 'Frontend Development Certification',
     institution: 'REFACTORY ACADEMY',
     location: 'Remote',
-    period: 'July 2025 - September 2025',
+    period: 'July 2025 – September 2025',
     status: 'Completed',
     description: 'Intensive program covering modern frontend development with JavaScript, responsive design, accessibility, and professional development workflows.',
     highlights: ['JavaScript', 'HTML/CSS', 'Git & GitHub', 'Agile & Scrum'],
@@ -35,86 +35,103 @@ const certifications = [
   }
 ]
 
-function CertificationCard({ item, index }) {
+function CertCard({ item, index }) {
   const cardRef = useScrollReveal({ threshold: 0.15 })
+  const isEven  = index % 2 === 0
 
   return (
     <div
       ref={cardRef}
-      className={`edu-card reveal ${index % 2 === 0 ? 'reveal-left' : 'reveal-right'}`}
-      style={{ transitionDelay: `${index * 0.15}s` }}
+      className={`cert-card reveal ${isEven ? 'reveal-left' : 'reveal-right'}`}
+      style={{ transitionDelay: `${index * 0.15}s`, '--color': item.color }}
     >
-      <div className="edu-accent" style={{ background: item.color }} />
+      {/* Left colour bar */}
+      <div className="cert-bar" aria-hidden="true" />
 
-      <div className="edu-card-inner">
-        <div className="edu-header">
-          <div className="edu-icon-wrap" style={{ background: `${item.color}22`, border: `1px solid ${item.color}55` }}>
-            <FiAward size={22} style={{ color: item.color }} />
+      {/* Glow on hover */}
+      <div className="cert-glow" aria-hidden="true" />
+
+      <div className="cert-inner">
+
+        {/* Top row: icon + title + status */}
+        <div className="cert-top">
+          <div className="cert-icon-wrap">
+            <FiAward size={20} />
           </div>
-          <div className="edu-header-text">
-            <h3 className="edu-degree">{item.degree}</h3>
-            <p className="edu-institution">{item.institution}</p>
+
+          <div className="cert-title-block">
+            <h3 className="cert-degree">{item.degree}</h3>
+            <p className="cert-institution">{item.institution}</p>
           </div>
-          <span
-            className="edu-status"
-            style={{
-              background: item.status === 'In Progress' ? 'rgba(251,191,36,0.15)' : 'rgba(74,222,128,0.15)',
-              color:      item.status === 'In Progress' ? '#fbbf24' : '#4ade80',
-              border:     `1px solid ${item.status === 'In Progress' ? 'rgba(251,191,36,0.3)' : 'rgba(74,222,128,0.3)'}`,
-            }}
-          >
+
+          <span className="cert-status">
+            <FiCheckCircle size={12} />
             {item.status}
           </span>
         </div>
 
-        <div className="edu-meta">
-          <span className="edu-meta-item">
-            <FiCalendar size={13} />
+        {/* Meta row */}
+        <div className="cert-meta">
+          <span className="cert-meta-item">
+            <FiCalendar size={12} />
             {item.period}
           </span>
-          <span className="edu-meta-item">
-            <FiMapPin size={13} />
+          <span className="cert-meta-dot" aria-hidden="true" />
+          <span className="cert-meta-item">
+            <FiMapPin size={12} />
             {item.location}
           </span>
         </div>
 
-        <p className="edu-description">{item.description}</p>
+        {/* Description */}
+        <p className="cert-description">{item.description}</p>
 
-        <div className="edu-highlights">
+        {/* Tags */}
+        <div className="cert-tags">
           {item.highlights.map((tag, i) => (
-            <span key={i} className="edu-tag" style={{ borderColor: `${item.color}55`, color: item.color }}>
+            <span key={i} className="cert-tag">
               {tag}
             </span>
           ))}
         </div>
+
       </div>
     </div>
   )
 }
 
 function Certifications() {
-  const headingRef    = useScrollReveal({ threshold: 0.2 })
-  const subheadingRef = useScrollReveal({ threshold: 0.2 })
+  const headingRef = useScrollReveal({ threshold: 0.2 })
+  const subRef     = useScrollReveal({ threshold: 0.2 })
 
   return (
-    <section id="certifications" className="edu-section">
-      <div className="edu-container">
+    <section id="certifications" className="cert-section">
 
-        <div className="edu-heading-wrap">
-          <h1 ref={headingRef} className="edu-heading reveal">
-            <FiAward size={32} style={{ display: 'inline', marginRight: '12px', verticalAlign: 'middle' }} />
-            Certifications
+      {/* Background orb */}
+      <div className="cert-bg-orb" aria-hidden="true" />
+
+      <div className="cert-container">
+
+        {/* Header */}
+        <div className="cert-header">
+          <p ref={headingRef} className="cert-eyebrow reveal">
+            <span className="cert-eyebrow-line" aria-hidden="true" />
+            What I've earned
+          </p>
+          <h1 className="cert-heading">
+            My <span className="cert-heading-outline">Certifications</span>
           </h1>
-          <p ref={subheadingRef} className="edu-subheading reveal" style={{ transitionDelay: '0.1s' }}>
-            My training & professional certifications
+          <p ref={subRef} className="cert-subheading reveal" style={{ transitionDelay: '0.1s' }}>
+            Training &amp; professional certifications I've completed
           </p>
         </div>
 
-        <div className="edu-timeline">
-          <div className="edu-timeline-line" />
-          <div className="edu-cards">
+        {/* Timeline */}
+        <div className="cert-timeline">
+          <div className="cert-timeline-line" aria-hidden="true" />
+          <div className="cert-cards">
             {certifications.map((item, index) => (
-              <CertificationCard key={index} item={item} index={index} />
+              <CertCard key={index} item={item} index={index} />
             ))}
           </div>
         </div>
@@ -126,217 +143,331 @@ function Certifications() {
 
 const styles = document.createElement('style')
 styles.textContent = `
-  .edu-section {
-    padding: 100px 20px;
+  /* ── Section ── */
+  .cert-section {
+    padding: 110px 60px;
     background: transparent;
     position: relative;
+    overflow: hidden;
   }
 
-  .edu-container {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .edu-heading-wrap {
-    text-align: center;
-    margin-bottom: 60px;
-  }
-
-  .edu-heading {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 15px;
-    position: relative;
-    background: linear-gradient(135deg, #ffffff, #b8a8ff, #7b68ee);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    display: inline-block;
-  }
-
-  .edu-heading::after {
-    content: "";
+  .cert-bg-orb {
     position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, #7b68ee, #b8a8ff);
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(168,85,247,0.09) 0%, transparent 70%);
+    top: 50%;
+    right: -180px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    filter: blur(80px);
+  }
+
+  .cert-container {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Header ── */
+  .cert-header {
+    text-align: center;
+    margin-bottom: 64px;
+  }
+
+  .cert-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #7b68ee;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    justify-content: center;
+  }
+
+  .cert-eyebrow-line {
+    display: block;
+    width: 28px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #7b68ee);
     border-radius: 2px;
   }
 
-  .edu-subheading {
-    text-align: center;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1.1rem;
-    margin-top: 25px;
-    font-weight: 400;
-    letter-spacing: 1px;
+  .cert-heading {
+    font-size: clamp(2.6rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 16px;
   }
 
-  .edu-timeline {
+  /* Outline signature — consistent across all sections */
+  .cert-heading-outline {
+    -webkit-text-stroke: 2px #7b68ee;
+    color: transparent;
+    filter: drop-shadow(0 0 16px rgba(123,104,238,0.45));
+  }
+
+  .cert-subheading {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.5px;
+  }
+
+  /* ── Timeline ── */
+  .cert-timeline {
     position: relative;
   }
 
-  .edu-timeline-line {
+  .cert-timeline-line {
     position: absolute;
-    left: 50%;
+    left: 20px;
     top: 0;
     bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg, transparent, rgba(123, 104, 238, 0.5) 10%, rgba(184, 168, 255, 0.4) 50%, rgba(123, 104, 238, 0.5) 90%, transparent);
-    transform: translateX(-50%);
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(123,104,238,0.4) 10%,
+      rgba(184,168,255,0.3) 50%,
+      rgba(123,104,238,0.4) 90%,
+      transparent 100%
+    );
     pointer-events: none;
   }
 
-  .edu-cards {
+  .cert-cards {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
+    padding-left: 52px;
   }
 
-  .edu-card {
+  /* ── Card ── */
+  .cert-card {
     position: relative;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(15px);
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(16px);
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.09);
     overflow: hidden;
-    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-                background 0.3s ease,
-                border-color 0.3s ease,
-                box-shadow 0.3s ease;
+    transition:
+      opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
-  .edu-card:hover {
-    background: rgba(255, 255, 255, 0.10);
-    border-color: rgba(123, 104, 238, 0.35);
-    box-shadow: 0 16px 48px rgba(123, 104, 238, 0.2);
-    transform: translateY(-6px) !important;
+  .cert-card:hover {
+    background: rgba(255,255,255,0.08);
+    border-color: color-mix(in srgb, var(--color, #7b68ee) 40%, transparent);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.25),
+                0 0 0 1px color-mix(in srgb, var(--color, #7b68ee) 20%, transparent) inset;
+    transform: translateY(-5px) !important;
   }
 
-  .edu-accent {
+  /* Left colour bar */
+  .cert-bar {
     position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 4px;
-    border-radius: 20px 0 0 20px;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--color, #7b68ee);
+    border-radius: 18px 0 0 18px;
+    opacity: 0.8;
   }
 
-  .edu-card-inner {
-    padding: 28px 28px 28px 36px;
+  /* Hover glow blob */
+  .cert-glow {
+    position: absolute;
+    top: -40px; left: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--color, #7b68ee) 25%, transparent);
+    filter: blur(50px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
   }
 
-  .edu-header {
+  .cert-card:hover .cert-glow {
+    opacity: 1;
+  }
+
+  /* Timeline dot — sits in the left gutter */
+  .cert-card::before {
+    content: '';
+    position: absolute;
+    left: -40px;
+    top: 32px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color, #7b68ee);
+    box-shadow: 0 0 0 3px rgba(10,10,42,1),
+                0 0 0 5px color-mix(in srgb, var(--color, #7b68ee) 40%, transparent);
+  }
+
+  .cert-inner {
+    padding: 26px 26px 24px 32px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── Top row ── */
+  .cert-top {
     display: flex;
     align-items: flex-start;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap: 14px;
+    margin-bottom: 14px;
     flex-wrap: wrap;
   }
 
-  .edu-icon-wrap {
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
+  .cert-icon-wrap {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    background: color-mix(in srgb, var(--color, #7b68ee) 15%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color, #7b68ee) 35%, transparent);
+    color: var(--color, #7b68ee);
+    transition: background 0.3s ease, transform 0.3s ease;
   }
 
-  .edu-header-text {
+  .cert-card:hover .cert-icon-wrap {
+    background: color-mix(in srgb, var(--color, #7b68ee) 25%, transparent);
+    transform: scale(1.08);
+  }
+
+  .cert-title-block {
     flex: 1;
     min-width: 0;
   }
 
-  .edu-degree {
-    font-size: 1.2rem;
+  .cert-degree {
+    font-size: 1.1rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #ffffff, #d0c8ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: #ffffff;
     margin-bottom: 4px;
-    line-height: 1.4;
+    line-height: 1.35;
+    letter-spacing: -0.2px;
   }
 
-  .edu-institution {
-    font-size: 0.95rem;
-    color: #b8a8ff;
-    font-weight: 500;
-  }
-
-  .edu-status {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
+  .cert-institution {
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    color: var(--color, #b8a8ff);
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  .cert-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 11px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    background: rgba(74,222,128,0.1);
+    color: #4ade80;
+    border: 1px solid rgba(74,222,128,0.25);
     white-space: nowrap;
     align-self: flex-start;
     flex-shrink: 0;
   }
 
-  .edu-meta {
+  /* ── Meta ── */
+  .cert-meta {
     display: flex;
-    gap: 20px;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 14px;
     flex-wrap: wrap;
   }
 
-  .edu-meta-item {
+  .cert-meta-item {
     display: flex;
     align-items: center;
-    gap: 6px;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.82rem;
+    gap: 5px;
+    color: rgba(255,255,255,0.4);
+    font-size: 0.78rem;
     letter-spacing: 0.3px;
   }
 
-  .edu-description {
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 0.95rem;
-    line-height: 1.7;
+  .cert-meta-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+  }
+
+  /* ── Description ── */
+  .cert-description {
+    color: rgba(255,255,255,0.65);
+    font-size: 0.93rem;
+    line-height: 1.75;
     margin-bottom: 18px;
   }
 
-  .edu-highlights {
+  /* ── Tags ── */
+  .cert-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 7px;
   }
 
-  .edu-tag {
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid;
-    font-size: 0.78rem;
+  .cert-tag {
+    padding: 3px 11px;
+    border-radius: 6px;
+    border: 1px solid color-mix(in srgb, var(--color, #7b68ee) 40%, transparent);
+    color: var(--color, #b8a8ff);
+    font-size: 0.72rem;
     font-weight: 500;
-    background: rgba(255, 255, 255, 0.04);
+    background: color-mix(in srgb, var(--color, #7b68ee) 8%, transparent);
     letter-spacing: 0.3px;
+    transition: background 0.25s ease;
   }
 
+  .cert-card:hover .cert-tag {
+    background: color-mix(in srgb, var(--color, #7b68ee) 14%, transparent);
+  }
+
+  /* ── Responsive ── */
   @media (max-width: 768px) {
-    .edu-section { padding: 80px 20px; }
-    .edu-heading { font-size: 2.5rem; }
-    .edu-timeline-line { display: none; }
-    .edu-degree { font-size: 1.1rem; }
+    .cert-section { padding: 80px 24px; }
+    .cert-heading { font-size: 2.6rem; letter-spacing: -1px; }
+    .cert-timeline-line { left: 14px; }
+    .cert-cards { padding-left: 36px; }
+    .cert-card::before { left: -30px; }
   }
 
   @media (max-width: 480px) {
-    .edu-section { padding: 60px 15px; }
-    .edu-heading { font-size: 2rem; }
-    .edu-card-inner { padding: 22px 20px 22px 28px; }
-    .edu-header { gap: 12px; }
-    .edu-icon-wrap { width: 38px; height: 38px; }
-    .edu-degree { font-size: 1rem; }
-    .edu-institution { font-size: 0.85rem; }
-    .edu-description { font-size: 0.88rem; }
+    .cert-section { padding: 60px 14px; }
+    .cert-heading { font-size: 2.1rem; }
+    .cert-timeline-line { display: none; }
+    .cert-cards { padding-left: 0; }
+    .cert-card::before { display: none; }
+    .cert-inner { padding: 20px 18px 18px 22px; }
+    .cert-degree { font-size: 1rem; }
+    .cert-institution { font-size: 0.72rem; }
+    .cert-description { font-size: 0.88rem; }
+    .cert-icon-wrap { width: 36px; height: 36px; border-radius: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cert-card, .cert-glow, .cert-icon-wrap, .cert-tag { transition: none !important; }
   }
 `
 document.head.appendChild(styles)

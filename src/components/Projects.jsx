@@ -88,7 +88,7 @@ const projects = [
     tags: ['React', 'TypeScript', 'Python'],
     deployedWith: null,
     deployLabel: 'Vercel',
-    inProgress: true   // live but still being worked on
+    inProgress: true
   },
   {
     title: 'VogueValt Fashion Website',
@@ -110,7 +110,6 @@ const ALL_TABS = ['All', 'Web App', 'Mobile App', 'Website']
 /* ── Desktop browser frame ── */
 function DesktopFrame({ image, title, accentColor, url }) {
   const displayUrl = url ? url.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'localhost'
-
   return (
     <div className="frame-desktop" style={{ '--accent': accentColor }}>
       <div className="frame-desktop-bar">
@@ -129,9 +128,7 @@ function DesktopFrame({ image, title, accentColor, url }) {
           src={image || `https://via.placeholder.com/900x560/1a1a2e/7b68ee?text=${encodeURIComponent(title)}`}
           alt={title}
           className="frame-desktop-img"
-          onError={(e) => {
-            e.target.src = `https://via.placeholder.com/900x560/1a1a2e/7b68ee?text=${encodeURIComponent(title)}`
-          }}
+          onError={(e) => { e.target.src = `https://via.placeholder.com/900x560/1a1a2e/7b68ee?text=${encodeURIComponent(title)}` }}
         />
         <div className="frame-screen-shine" />
       </div>
@@ -155,9 +152,7 @@ function MobileFrame({ image, title, accentColor }) {
           src={image}
           alt={title}
           className="frame-mobile-img"
-          onError={(e) => {
-            e.target.src = `https://via.placeholder.com/400x800/1a1a2e/7b68ee?text=${title}`
-          }}
+          onError={(e) => { e.target.src = `https://via.placeholder.com/400x800/1a1a2e/7b68ee?text=${title}` }}
         />
         <div className="frame-screen-shine" />
       </div>
@@ -176,7 +171,7 @@ function ProjectRow({ project, index }) {
   const isMobile = project.category === 'Mobile App'
 
   return (
-    <div className="proj-row">
+    <div className="proj-row" style={{ '--accent': project.accentColor }}>
       {/* Frame side */}
       <div
         ref={imageRef}
@@ -195,40 +190,42 @@ function ProjectRow({ project, index }) {
         className={`proj-text-side reveal ${isEven ? 'reveal-right' : 'reveal-left'}`}
         style={{ transitionDelay: '0.15s' }}
       >
+        {/* Meta row */}
         <div className="proj-meta-row">
           <span className="proj-number" style={{ color: project.accentColor }}>
             {String(index + 1).padStart(2, '0')}
           </span>
-          <span
-            className="proj-category"
-            style={{
-              color: project.accentColor,
-              borderColor: `${project.accentColor}55`,
-              background: `${project.accentColor}11`
-            }}
-          >
+          <span className="proj-category" style={{
+            color: project.accentColor,
+            borderColor: `${project.accentColor}55`,
+            background: `${project.accentColor}11`
+          }}>
             {project.category}
           </span>
-          {/* In Progress badge — shown alongside category when flagged */}
           {project.inProgress && (
             <span className="proj-wip-badge">In Progress</span>
           )}
         </div>
 
+        {/* Title */}
         <h3 className="proj-title">{project.title}</h3>
 
+        {/* Accent line */}
         <div className="proj-accent-line" style={{ background: `linear-gradient(90deg, ${project.accentColor}, transparent)` }} />
 
+        {/* Description */}
         <p className="proj-description">{project.description}</p>
 
+        {/* Tags */}
         <div className="proj-tags">
           {project.tags.map((tag, i) => (
-            <span key={i} className="proj-tag" style={{ borderColor: `${project.accentColor}44`, color: 'rgba(255,255,255,0.7)' }}>
+            <span key={i} className="proj-tag" style={{ borderColor: `${project.accentColor}40`, color: 'rgba(255,255,255,0.75)' }}>
               {tag}
             </span>
           ))}
         </div>
 
+        {/* Footer */}
         <div className="proj-footer">
           {(project.deployedWith || project.deployLabel) && (
             <span className="proj-deploy">
@@ -248,7 +245,7 @@ function ProjectRow({ project, index }) {
                 className="proj-btn-primary"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ background: `linear-gradient(135deg, ${project.accentColor}dd, ${project.accentColor}88)` }}
+                style={{ background: `linear-gradient(135deg, ${project.accentColor}ee, ${project.accentColor}99)` }}
               >
                 View Project <FiExternalLink size={13} />
               </a>
@@ -264,7 +261,6 @@ function Projects() {
   const headingRef    = useScrollReveal({ threshold: 0.2 })
   const subheadingRef = useScrollReveal({ threshold: 0.2 })
   const tabsRef       = useScrollReveal({ threshold: 0.2 })
-
   const [activeTab, setActiveTab] = useState('All')
 
   const filtered = activeTab === 'All'
@@ -273,11 +269,27 @@ function Projects() {
 
   return (
     <section id="projects" className="projects-section">
+
+      {/* Background orb */}
+      <div className="proj-bg-orb" aria-hidden="true" />
+
       <div className="projects-header">
-        <h1 ref={headingRef} className="projects-heading reveal">Projects</h1>
-        <p ref={subheadingRef} className="projects-subheading reveal" style={{ transitionDelay: '0.1s' }}>
-          Some of my recent work and creations
+        {/* Eyebrow */}
+        <p ref={headingRef} className="proj-eyebrow reveal">
+          <span className="proj-eyebrow-line" aria-hidden="true" />
+          What I've built
         </p>
+
+        {/* Heading — consistent outline signature */}
+        <h1 className="projects-heading">
+          My <span className="projects-heading-outline">Projects</span>
+        </h1>
+
+        <p ref={subheadingRef} className="projects-subheading reveal" style={{ transitionDelay: '0.1s' }}>
+          A selection of web &amp; mobile work I'm proud of
+        </p>
+
+        {/* Tabs */}
         <div ref={tabsRef} className="projects-tabs reveal" style={{ transitionDelay: '0.2s' }}>
           {ALL_TABS.map(tab => (
             <button
@@ -302,51 +314,84 @@ function Projects() {
 
 const styles = document.createElement('style')
 styles.textContent = `
+  /* ── Section ── */
   .projects-section {
-    padding: 100px 0;
+    padding: 110px 0 60px;
     background: transparent;
     position: relative;
+    overflow: hidden;
   }
 
+  /* Background orb */
+  .proj-bg-orb {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(123,104,238,0.08) 0%, transparent 70%);
+    top: 20%;
+    left: -250px;
+    pointer-events: none;
+    filter: blur(80px);
+  }
+
+  /* ── Header ── */
   .projects-header {
     text-align: center;
     padding: 0 20px;
-    margin-bottom: 80px;
-  }
-
-  .projects-heading {
-    font-size: 3rem;
-    font-weight: 700;
-    margin-bottom: 15px;
+    margin-bottom: 72px;
     position: relative;
-    display: inline-block;
-    background: linear-gradient(135deg, #ffffff, #b8a8ff, #7b68ee);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    z-index: 1;
   }
 
-  .projects-heading::after {
-    content: "";
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(90deg, #7b68ee, #b8a8ff);
+  /* Eyebrow */
+  .proj-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #7b68ee;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    justify-content: center;
+  }
+
+  .proj-eyebrow-line {
+    display: block;
+    width: 28px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, #7b68ee);
     border-radius: 2px;
   }
 
-  .projects-subheading {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1.1rem;
-    margin-top: 25px;
-    margin-bottom: 36px;
-    font-weight: 400;
-    letter-spacing: 1px;
+  /* Heading */
+  .projects-heading {
+    font-size: clamp(2.8rem, 5.5vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    color: #ffffff;
+    line-height: 1;
+    margin-bottom: 16px;
   }
 
+  /* Outline word — same signature across all sections */
+  .projects-heading-outline {
+    -webkit-text-stroke: 2px #7b68ee;
+    color: transparent;
+    filter: drop-shadow(0 0 18px rgba(123,104,238,0.45));
+  }
+
+  .projects-subheading {
+    color: rgba(255,255,255,0.55);
+    font-size: 1rem;
+    margin-bottom: 36px;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+  }
+
+  /* Tabs */
   .projects-tabs {
     display: flex;
     justify-content: center;
@@ -356,36 +401,40 @@ styles.textContent = `
 
   .projects-tab {
     padding: 8px 22px;
-    border-radius: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.6);
-    font-size: 0.9rem;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.55);
+    font-size: 0.86rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.25s ease;
+    transition: all 0.22s ease;
     font-family: inherit;
     letter-spacing: 0.3px;
   }
 
   .projects-tab:hover {
-    background: rgba(123, 104, 238, 0.15);
-    border-color: rgba(123, 104, 238, 0.4);
-    color: #b8a8ff;
+    background: rgba(123,104,238,0.12);
+    border-color: rgba(123,104,238,0.4);
+    color: #fff;
   }
 
   .projects-tab.active {
-    background: linear-gradient(135deg, rgba(123, 104, 238, 0.8), rgba(75, 0, 130, 0.8));
-    border-color: rgba(123, 104, 238, 0.6);
+    background: rgba(123,104,238,0.2);
+    border-color: #7b68ee;
     color: white;
-    box-shadow: 0 4px 15px rgba(123, 104, 238, 0.3);
+    box-shadow: 0 4px 18px rgba(123,104,238,0.25);
   }
 
+  /* ── Project list ── */
   .projects-list {
     display: flex;
     flex-direction: column;
+    position: relative;
+    z-index: 1;
   }
 
+  /* ── Row ── */
   .proj-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -393,11 +442,18 @@ styles.textContent = `
     align-items: center;
     padding: 80px 80px;
     position: relative;
+    transition: background 0.3s ease;
+  }
+
+  /* Subtle hover tint on whole row */
+  .proj-row:hover {
+    background: rgba(255,255,255,0.015);
   }
 
   .proj-row:nth-child(even) .proj-image-side { order: 2; }
   .proj-row:nth-child(even) .proj-text-side  { order: 1; }
 
+  /* Row separator */
   .proj-row::after {
     content: '';
     position: absolute;
@@ -405,11 +461,11 @@ styles.textContent = `
     left: 80px;
     right: 80px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
   }
   .proj-row:last-child::after { display: none; }
 
-  /* DESKTOP FRAME */
+  /* ── Desktop frame ── */
   .frame-desktop {
     display: flex;
     flex-direction: column;
@@ -441,8 +497,7 @@ styles.textContent = `
   .frame-desktop-dots { display: flex; gap: 5px; flex-shrink: 0; }
 
   .frame-dot {
-    width: 10px;
-    height: 10px;
+    width: 10px; height: 10px;
     border-radius: 50%;
     display: block;
   }
@@ -490,23 +545,21 @@ styles.textContent = `
   .frame-desktop-stand { display: flex; flex-direction: column; align-items: center; }
 
   .frame-desktop-neck {
-    width: 18px;
-    height: 22px;
+    width: 18px; height: 22px;
     background: linear-gradient(180deg, #2a2a38, #1e1e2a);
     border-left: 1px solid rgba(255,255,255,0.08);
     border-right: 1px solid rgba(255,255,255,0.08);
   }
 
   .frame-desktop-base {
-    width: 80px;
-    height: 7px;
+    width: 80px; height: 7px;
     background: linear-gradient(180deg, #2a2a38, #1e1e2a);
     border-radius: 0 0 6px 6px;
     border: 1px solid rgba(255,255,255,0.08);
     border-top: none;
   }
 
-  /* MOBILE FRAME */
+  /* ── Mobile frame ── */
   .frame-mobile {
     width: 220px;
     margin: 0 auto;
@@ -523,16 +576,14 @@ styles.textContent = `
 
   .frame-mobile:hover {
     transform: translateY(-8px) rotate(-1deg);
-    box-shadow:
-      inset 0 0 0 1px rgba(255,255,255,0.07),
-      0 36px 80px rgba(0,0,0,0.65),
-      0 0 40px color-mix(in srgb, var(--accent) 20%, transparent);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.07),
+                0 36px 80px rgba(0,0,0,0.65),
+                0 0 40px color-mix(in srgb, var(--accent) 20%, transparent);
     filter: drop-shadow(0 30px 50px rgba(0,0,0,0.5));
   }
 
   .frame-mobile-notch {
-    width: 70px;
-    height: 20px;
+    width: 70px; height: 20px;
     background: #111118;
     border-radius: 0 0 14px 14px;
     margin: 0 auto 6px;
@@ -544,8 +595,7 @@ styles.textContent = `
   }
 
   .frame-mobile-camera {
-    width: 8px;
-    height: 8px;
+    width: 8px; height: 8px;
     border-radius: 50%;
     background: radial-gradient(circle at 35% 35%, #2a3a4a, #0d1520);
     border: 1px solid rgba(255,255,255,0.1);
@@ -569,8 +619,7 @@ styles.textContent = `
   }
 
   .frame-mobile-home {
-    width: 60px;
-    height: 4px;
+    width: 60px; height: 4px;
     background: rgba(255,255,255,0.25);
     border-radius: 2px;
     margin: 10px auto 0;
@@ -583,9 +632,9 @@ styles.textContent = `
     right: -3px;
   }
 
-  .frame-mobile-btn--power { width: 3px; height: 50px; top: 90px; }
-  .frame-mobile-btn--vol-up { width: 3px; height: 32px; top: 80px; right: auto; left: -3px; }
-  .frame-mobile-btn--vol-down { width: 3px; height: 32px; top: 122px; right: auto; left: -3px; }
+  .frame-mobile-btn--power      { width: 3px; height: 50px; top: 90px; }
+  .frame-mobile-btn--vol-up     { width: 3px; height: 32px; top: 80px;  right: auto; left: -3px; }
+  .frame-mobile-btn--vol-down   { width: 3px; height: 32px; top: 122px; right: auto; left: -3px; }
 
   .frame-screen-shine {
     position: absolute;
@@ -594,7 +643,7 @@ styles.textContent = `
     pointer-events: none;
   }
 
-  /* TEXT SIDE */
+  /* ── Text side ── */
   .proj-text-side { display: flex; flex-direction: column; }
 
   .proj-meta-row {
@@ -609,64 +658,61 @@ styles.textContent = `
     font-size: 2.8rem;
     font-weight: 800;
     line-height: 1;
-    opacity: 0.25;
+    opacity: 0.2;
     letter-spacing: -2px;
   }
 
   .proj-category {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 600;
     padding: 3px 12px;
-    border-radius: 20px;
+    border-radius: 6px;
     border: 1px solid;
     letter-spacing: 0.8px;
     text-transform: uppercase;
   }
 
-  /* In Progress badge — sits in the meta row next to the category */
   .proj-wip-badge {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 600;
     color: #fbbf24;
-    background: rgba(251, 191, 36, 0.12);
-    border: 1px solid rgba(251, 191, 36, 0.35);
+    background: rgba(251,191,36,0.1);
+    border: 1px solid rgba(251,191,36,0.3);
     padding: 3px 10px;
-    border-radius: 20px;
+    border-radius: 6px;
     letter-spacing: 0.5px;
-    /* Subtle pulse to draw attention */
     animation: wip-pulse 2.5s ease-in-out infinite;
   }
 
   @keyframes wip-pulse {
     0%, 100% { opacity: 1; }
-    50%       { opacity: 0.55; }
+    50%       { opacity: 0.5; }
   }
 
   .proj-title {
-    font-size: 1.7rem;
-    font-weight: 700;
-    line-height: 1.25;
+    font-size: 1.75rem;
+    font-weight: 800;
+    line-height: 1.2;
     margin-bottom: 16px;
-    background: linear-gradient(135deg, #ffffff, #d0c8ff);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: #ffffff;
+    letter-spacing: -0.5px;
   }
 
   .proj-accent-line {
-    height: 3px;
-    width: 50px;
+    height: 2px;
+    width: 44px;
     border-radius: 2px;
     margin-bottom: 20px;
   }
 
   .proj-description {
-    color: rgba(255, 255, 255, 0.72);
-    font-size: 1rem;
-    line-height: 1.8;
+    color: rgba(255,255,255,0.65);
+    font-size: 0.97rem;
+    line-height: 1.85;
     margin-bottom: 24px;
   }
 
+  /* Tags */
   .proj-tags {
     display: flex;
     flex-wrap: wrap;
@@ -676,27 +722,31 @@ styles.textContent = `
 
   .proj-tag {
     padding: 4px 12px;
-    border-radius: 8px;
+    border-radius: 6px;
     border: 1px solid;
-    font-size: 0.75rem;
+    font-size: 0.73rem;
     font-weight: 500;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255,255,255,0.04);
     letter-spacing: 0.3px;
   }
 
+  /* Footer */
   .proj-footer {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     flex-wrap: wrap;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.07);
   }
 
   .proj-deploy {
     display: flex;
     align-items: center;
     gap: 6px;
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 0.78rem;
+    color: rgba(255,255,255,0.35);
+    font-size: 0.76rem;
+    letter-spacing: 0.3px;
   }
 
   .proj-deploy-icon { display: flex; align-items: center; }
@@ -712,20 +762,20 @@ styles.textContent = `
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: white;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
   }
 
   .proj-btn-icon:hover {
-    background: rgba(123, 104, 238, 0.3);
-    border-color: rgba(123, 104, 238, 0.5);
-    transform: scale(1.1);
+    background: rgba(123,104,238,0.2);
+    border-color: rgba(123,104,238,0.5);
+    color: #fff;
+    transform: scale(1.08);
   }
 
   .proj-btn-primary {
@@ -733,13 +783,13 @@ styles.textContent = `
     align-items: center;
     gap: 7px;
     padding: 9px 20px;
-    border-radius: 25px;
+    border-radius: 8px;
     color: white;
-    font-size: 0.85rem;
+    font-size: 0.84rem;
     font-weight: 600;
     text-decoration: none;
     border: none;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     box-shadow: 0 4px 16px rgba(0,0,0,0.25);
     letter-spacing: 0.3px;
   }
@@ -750,14 +800,14 @@ styles.textContent = `
     filter: brightness(1.15);
   }
 
-  /* RESPONSIVE */
+  /* ── Responsive ── */
   @media (max-width: 1024px) {
     .proj-row { padding: 60px 40px; gap: 40px; }
   }
 
   @media (max-width: 768px) {
-    .projects-section { padding: 80px 0; }
-    .projects-heading { font-size: 2.5rem; }
+    .projects-section { padding: 80px 0 40px; }
+    .projects-heading { font-size: 2.8rem; letter-spacing: -1px; }
 
     .proj-row {
       grid-template-columns: 1fr;
@@ -769,18 +819,23 @@ styles.textContent = `
     .proj-row:nth-child(even) .proj-text-side { order: unset; }
 
     .proj-row::after { left: 20px; right: 20px; }
-    .proj-title { font-size: 1.4rem; }
+    .proj-title { font-size: 1.45rem; }
     .proj-number { font-size: 2rem; }
     .frame-mobile { width: 180px; }
     .frame-mobile-img { max-height: 300px; }
   }
 
   @media (max-width: 480px) {
-    .projects-heading { font-size: 2rem; }
+    .projects-heading { font-size: 2.2rem; }
     .proj-row { padding: 40px 16px; gap: 28px; }
     .proj-title { font-size: 1.2rem; }
-    .projects-tab { padding: 7px 16px; font-size: 0.82rem; }
+    .projects-tab { padding: 7px 14px; font-size: 0.8rem; border-radius: 6px; }
     .frame-mobile { width: 160px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frame-desktop, .frame-mobile, .proj-btn-primary, .proj-btn-icon { transition: none !important; }
+    .proj-wip-badge { animation: none !important; }
   }
 `
 document.head.appendChild(styles)
