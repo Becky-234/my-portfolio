@@ -96,7 +96,7 @@ const projects = [
     description: 'A maternal health companion that reaches pregnant women in rural Uganda through the channels they already have: a basic phone and a SIM card.',
     link: '',
     github: null,
-    accentColor: '#C084FC',
+    accentColor: '#2d6a4f',
     category: 'Web App',
     image: mamacare,
     tags: ['React', 'TypeScript', 'Next.js'],
