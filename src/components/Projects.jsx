@@ -10,6 +10,7 @@ import mayondo from '../assets/mayondo.png'
 import weather from '../assets/weather.png'
 import voguevalt from '../assets/voguevalt.png'
 import ssebbale from '../assets/ssebbale.png'
+import mamacare from '../assets/mama-care.png'
 
 const projects = [
   {
@@ -88,6 +89,19 @@ const projects = [
     tags: ['React', 'TypeScript', 'Python'],
     deployedWith: null,
     deployLabel: 'Vercel',
+    inProgress: true
+  },
+   {
+    title: 'MamaCare - AI',
+    description: 'A maternal health companion that reaches pregnant women in rural Uganda through the channels they already have: a basic phone and a SIM card.',
+    link: '',
+    github: null,
+    accentColor: '#C084FC',
+    category: 'Web App',
+    image: mamacare,
+    tags: ['React', 'TypeScript', 'Next.js'],
+    deployedWith: null,
+    deployLabel: '',
     inProgress: true
   },
   {
