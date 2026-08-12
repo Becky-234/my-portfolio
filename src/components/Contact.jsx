@@ -10,7 +10,7 @@ const socials = [
   {
     icon: <FiLinkedin size={20} />,
     label: 'LinkedIn',
-    sub: 'rebecca-kirabo',
+    sub: 'Rebecca Kirabo',
     href: 'https://www.linkedin.com/in/rebecca-kirabo-b841002ab/',
     color: '#0a66c2'
   },
