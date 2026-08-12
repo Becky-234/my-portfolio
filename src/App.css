@@ -14,24 +14,27 @@ html {
   overflow-y: scroll;       /* pins the scrollbar to html permanently */
   overflow-x: hidden;
   background: #0a0a2a;
+  height: 100%;             /* required so % heights resolve down the tree */
 }
 
 body {
   overflow: visible;        /* must NOT be hidden/auto/scroll */
   min-height: 100%;
+  height: 100%;             /* required so % heights resolve down the tree */
   background: #0a0a2a;
 }
 
 #root {
   overflow: visible;        /* must NOT be hidden/auto/scroll */
   min-height: 100%;
+  height: 100%;             /* required so % heights resolve down the tree */
   background: #0a0a2a;
 }
 
 /* GALAXY BACKGROUND */
 .galaxy-container {
   position: relative;
-  min-height: 100vh;
+  min-height: 100%;          /* stretch to full content height, not just viewport */
   background: radial-gradient(ellipse at bottom, #0d1d31 0%, #0c0d13 100%);
   /* NO overflow set here — any value other than visible creates a nested scroller */
 }
