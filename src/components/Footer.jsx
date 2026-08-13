@@ -1,5 +1,5 @@
 import React from 'react'
-import { FiHeart, FiGithub, FiLinkedin, FiMapPin, FiMail } from 'react-icons/fi'
+import { FiHeart, FiGithub, FiLinkedin, FiMapPin, FiMail, FiPhone } from 'react-icons/fi'
 import { FaXTwitter } from 'react-icons/fa6'
 
 function Footer() {
@@ -34,7 +34,11 @@ function Footer() {
             <h4 className="footer-title">Contact Info</h4>
             <div className="footer-contact">
               <FiMail size={16} />
-              <a href="mailto:bkirabo853@gmail.com">bkirabo853@gmail.com</a>
+              <a href="mailto:kiraborebecca04@gmail.com">kiraborebecca04@gmail.com</a>
+            </div>
+            <div className="footer-contact">
+              <FiPhone size={16} />
+              <a href="tel:+256744807739">+256 744 807 739 / +256 777 474 462</a>
             </div>
             <div className="footer-contact">
               <FiMapPin size={16} />
