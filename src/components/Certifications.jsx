@@ -4,14 +4,24 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const certifications = [
   {
+    degree: 'Emotional Intelligence in Teamwork',
+    institution: 'UNIVERSITY OF THE PEOPLE',
+    location: 'Remote',
+    period: 'July 2026',
+    status: 'Completed',
+    description: 'Participated in the online co-curricular event “Emotional Intelligence in Teamwork: Strengthening Workplace Relationships.The webinar gave me valuable insights into how emotional intelligence influences the way we communicate, collaborate, manage relationships, make decisions, and work effectively as a team.',
+    highlights: ['Emotional Intelligence', 'Self Management', 'Collaboration', 'Interpersonal Communications', 'Active Listening'],
+    color: '#0d9488'
+  },
+  {
     degree: 'Software Engineering Training',
     institution: 'GROUNDBREAKER TALENTS',
-    location: 'Kampala, Uganda',
+    location: 'Remote',
     period: 'June 2025 – June 2026',
     status: 'Completed',
     description: 'Successfully completed a 12-month software engineering training under the Groundbreaker Talents program, demonstrating industry-ready technical skills and practical experience. Technical training executed by Refactory Academy.',
     highlights: ['Software Engineering', 'Practical Experience', 'Industry-Ready Skills', 'Softskills Development'],
-    color: '#0d9488'
+    color: '#0ea5e9'
   },
   {
     degree: 'Apprenticeship Training in Software Engineering',
