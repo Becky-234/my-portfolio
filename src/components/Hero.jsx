@@ -44,19 +44,19 @@ function Hero() {
           </div>
 
           {/* Badge — Projects */}
-          <div className="hero-badge hero-badge--projects" aria-label="5+ projects built">
+          <div className="hero-badge hero-badge--projects" aria-label="7+ projects built">
             <FiFolder className="hb-icon" />
             <div className="hb-text">
-              <span className="hb-num">5+</span>
+              <span className="hb-num">7+</span>
               <span className="hb-label">Projects</span>
             </div>
           </div>
 
           {/* Badge — Certifications */}
-          <div className="hero-badge hero-badge--certs" aria-label="3 certifications">
+          <div className="hero-badge hero-badge--certs" aria-label="4 certifications">
             <FiAward className="hb-icon" />
             <div className="hb-text">
-              <span className="hb-num">3</span>
+              <span className="hb-num">4</span>
               <span className="hb-label">Certs</span>
             </div>
           </div>
