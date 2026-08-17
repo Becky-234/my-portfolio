@@ -10,6 +10,7 @@ import mayondo from '../assets/mayondo.png'
 import weather from '../assets/weather.png'
 import voguevalt from '../assets/voguevalt.png'
 import ssebbale from '../assets/ssebbale.png'
+import activeinteriors from '../assets/active-interiors.png'
 import mamacare from '../assets/mama-care.png'
 
 const projects = [
@@ -90,6 +91,19 @@ const projects = [
     deployedWith: null,
     deployLabel: 'Vercel',
     inProgress: true
+  },
+   {
+    title: 'Active Interiors and Construction Website',
+    description: 'A modern website for Active Interiors and Construction, showcasing their services, portfolio, and contact information. Designed with a focus on responsive design and user experience.',
+    link: 'https://active-interiors-and-contructions.vercel.app/',
+    github: 'https://github.com/Becky-234/Active-Interiors',
+    accentColor: '#f2c94c',
+    category: 'Website',
+    image: activeinteriors,
+    tags: ['Vue.js', 'CSS3', 'Typescript', 'Responsive'],
+    deployedWith: <FiGithub size={14} />,
+    deployLabel: 'Vercel',
+    inProgress: false
   },
    {
     title: 'MamaCare - AI',
