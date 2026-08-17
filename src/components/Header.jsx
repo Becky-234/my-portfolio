@@ -13,35 +13,118 @@ function Header({ scrolled }) {
   ]
 
   const scrollTo = (href) => {
-    const target = document.querySelector(href)
-    if (!target) return
-    const top = target.getBoundingClientRect().top + window.scrollY - 80
-    window.scrollTo({ top, behavior: 'smooth' })
-    setIsMenuOpen(false)
+    console.log('Scrolling to:', href)
+    
+    const id = href.replace('#', '')
+    
+    let target = document.getElementById(id)
+    if (!target) {
+      target = document.querySelector(href)
+    }
+    if (!target) {
+      target = document.querySelector(`section[id="${id}"]`)
+    }
+    
+    if (target) {
+      console.log('Found target:', target)
+      
+      // Using scrollIntoView
+      try {
+        target.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'start',
+          inline: 'nearest'
+        })
+      } catch {
+        // Method 2: Using window.scrollTo
+        const rect = target.getBoundingClientRect()
+        const absoluteTop = rect.top + window.pageYOffset - 80
+        window.scrollTo({
+          top: absoluteTop,
+          behavior: 'smooth'
+        })
+      }
+      
+      if (window.location.hash !== href) {
+        history.pushState(null, '', href)
+      }
+      
+      setIsMenuOpen(false)
+    } else {
+      console.error('Target not found:', href)
+      window.location.hash = href
+      setIsMenuOpen(false)
+    }
   }
 
   const handleNavClick = (e, href) => {
     e.preventDefault()
+    e.stopPropagation()
     scrollTo(href)
   }
 
-  // Active section tracker
   useEffect(() => {
-    const sections = Array.from(document.querySelectorAll('section[id]'))
+    const checkSections = () => {
+      const sections = ['hero', 'about', 'skills', 'projects', 'certifications', 'contact']
+      console.log('Checking for sections:')
+      sections.forEach(id => {
+        const el = document.getElementById(id)
+        if (el) {
+          console.log(` #${id} found`)
+        } else {
+          console.log(` #${id} NOT found`)
+        }
+      })
+    }
+    
+    checkSections()
+    setTimeout(checkSections, 500)
+    setTimeout(checkSections, 1000)
+  }, [])
+
+  useEffect(() => {
+    const updateActiveLink = () => {
+      const hash = window.location.hash
+      if (hash) {
+        setActiveLink(hash)
+      }
+    }
+
+    window.addEventListener('hashchange', updateActiveLink)
+    updateActiveLink()
 
     const onScroll = () => {
-      const scrollMid = window.scrollY + window.innerHeight / 2
-
+      const sections = document.querySelectorAll('section[id]')
+      if (sections.length === 0) return
+      
       let current = ''
-      for (const sec of sections) {
-        if (sec.offsetTop <= scrollMid) current = `#${sec.id}`
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect()
+        if (rect.top <= 150) {
+          current = `#${section.id}`
+        }
+      })
+      
+      if (current) {
+        setActiveLink(current)
       }
-      setActiveLink(current)
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
-    onScroll()
-    return () => window.removeEventListener('scroll', onScroll)
+    
+    return () => {
+      window.removeEventListener('hashchange', updateActiveLink)
+      window.removeEventListener('scroll', onScroll)
+    }
+  }, [])
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (hash) {
+      setTimeout(() => {
+        scrollTo(hash)
+      }, 300)
+    }
   }, [])
 
   return (
@@ -49,7 +132,6 @@ function Header({ scrolled }) {
       <div className="navContainer">
         <nav className="navbar">
 
-          {/* Logo — scrolls to #hero */}
           <a
             href="#hero"
             className="logo"
@@ -58,7 +140,6 @@ function Header({ scrolled }) {
             Becky
           </a>
 
-          {/* Hamburger */}
           <button
             className={`mobile-menu-btn ${isMenuOpen ? 'active' : ''}`}
             onClick={() => setIsMenuOpen(o => !o)}
@@ -70,7 +151,6 @@ function Header({ scrolled }) {
             <span />
           </button>
 
-          {/* Nav links */}
           <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
             {navItems.map((item) => (
               <li key={item.name}>
@@ -119,7 +199,6 @@ headerStyles.textContent = `
     align-items: center;
   }
 
-  /* Logo */
   .logo {
     font-size: 28px;
     font-weight: 700;
@@ -138,7 +217,6 @@ headerStyles.textContent = `
     filter: brightness(1.2);
   }
 
-  /* Nav list */
   .nav-links {
     list-style: none;
     display: flex;
@@ -147,7 +225,6 @@ headerStyles.textContent = `
     padding: 0;
   }
 
-  /* Nav links — floating, no static background */
   .nav-link {
     text-decoration: none;
     font-size: 15px;
@@ -165,7 +242,6 @@ headerStyles.textContent = `
     animation: floatSpace 3s ease-in-out infinite;
   }
 
-  /* Stagger the float per item */
   .nav-links li:nth-child(1) .nav-link { animation-delay: 0s; }
   .nav-links li:nth-child(2) .nav-link { animation-delay: 0.2s; }
   .nav-links li:nth-child(3) .nav-link { animation-delay: 0.4s; }
@@ -183,7 +259,7 @@ headerStyles.textContent = `
     border-color: rgba(255,255,255,0.25);
     color: #ffffff;
     transform: translateY(-2px);
-    animation: none; /* stop float so hover transform isn't fighting it */
+    animation: none;
   }
 
   .nav-link.active {
@@ -194,7 +270,6 @@ headerStyles.textContent = `
     animation: none;
   }
 
-  /* Hamburger */
   .mobile-menu-btn {
     display: none;
     flex-direction: column;
@@ -221,7 +296,6 @@ headerStyles.textContent = `
   .mobile-menu-btn.active span:nth-child(2) { opacity: 0; }
   .mobile-menu-btn.active span:nth-child(3) { transform: rotate(-45deg) translate(6px, -6px); }
 
-  /* ── Mobile ── */
   @media (max-width: 768px) {
     header { top: 10px; }
 
