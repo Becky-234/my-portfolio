@@ -28,7 +28,6 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Optimized shooting stars effect
   useEffect(() => {
     if (showWelcome) return
 
@@ -83,12 +82,13 @@ function App() {
       
       <Header scrolled={scrolled} />
       <main className="content-wrapper">
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Certifications />
-        <Contact />
+        {/* ENSURE ALL SECTIONS HAVE IDs */}
+        <section id="hero" style={{ scrollMarginTop: '80px' }}><Hero /></section>
+        <section id="about" style={{ scrollMarginTop: '80px' }}><About /></section>
+        <section id="skills" style={{ scrollMarginTop: '80px' }}><Skills /></section>
+        <section id="projects" style={{ scrollMarginTop: '80px' }}><Projects /></section>
+        <section id="certifications" style={{ scrollMarginTop: '80px' }}><Certifications /></section>
+        <section id="contact" style={{ scrollMarginTop: '80px' }}><Contact /></section>
       </main>
       <Footer />
     </div>
