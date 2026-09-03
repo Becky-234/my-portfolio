@@ -4,10 +4,10 @@ import aboutImage from '../assets/about.jpeg'
 import { FiCode, FiSmartphone, FiUsers, FiZap } from 'react-icons/fi'
 
 const highlights = [
-  { icon: <FiCode />,       label: 'Web Dev',    sub: 'React · Node' },
-  { icon: <FiSmartphone />, label: 'Mobile',     sub: 'React Native' },
-  { icon: <FiUsers />,      label: 'Agile',      sub: 'Team player'  },
-  { icon: <FiZap />,        label: 'Fast learner', sub: 'Always growing' },
+  { icon: <FiCode />,       label: 'Web Dev',    sub: '' },
+  { icon: <FiSmartphone />, label: 'Mobile',     sub: '' },
+  { icon: <FiUsers />,      label: 'Agile',      sub: ''  },
+  { icon: <FiZap />,        label: 'Fast learner', sub: '' },
 ]
 
 function About() {
@@ -66,14 +66,15 @@ function About() {
 
           {/* Paragraphs */}
           <p className="ab-para">
-            I build responsive web and mobile applications using React.js, React Native,
-            Node.js, and MongoDB — combining technical depth with user-centred design to
-            create seamless cross-platform experiences.
+          I'm a software engineer with a focus on building responsive,
+          cross-platform applications. I bring a blend of technical depth 
+          and design sensibility to every product I work on because good software
+          should be functional and feel right to use.
           </p>
           <p className="ab-para">
-            I thrive in collaborative Agile environments, turning ideas into impactful
-            digital products. I'm passionate about continuous learning and creating
-            solutions that make a meaningful difference in people's lives.
+            Shaped by the energy and ambition of the tech scene,
+            I'm committed to continuous growth and to building digital solutions
+            that make a real difference in people's lives.
           </p>
 
           {/* Highlight grid */}
