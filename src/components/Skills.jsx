@@ -9,6 +9,7 @@ const skillCategories = [
       { name: 'HTML5',        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
       { name: 'CSS3',         logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
       { name: 'JavaScript',   logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+      { name: 'PHP',          logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg' },
       { name: 'React',        logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
       { name: 'Vue.js',       logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg' },
       { name: 'Flutter',      logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg' },
@@ -33,6 +34,7 @@ const skillCategories = [
     skills: [
       { name: 'PostgreSQL', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
       { name: 'MongoDB',    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg' },
+      { name: 'Supabase',   logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg' },
     ]
   },
   {
@@ -67,7 +69,6 @@ function SkillCard({ skill, index, accentColor }) {
         '--accent': accentColor,
       }}
     >
-      {/* Glow behind logo */}
       <div className="sk-card-glow" aria-hidden="true" />
 
       <div className="sk-logo-wrap">
@@ -75,7 +76,6 @@ function SkillCard({ skill, index, accentColor }) {
       </div>
       <span className="sk-name">{skill.name}</span>
 
-      {/* Bottom accent bar */}
       <div className="sk-bar" aria-hidden="true" />
     </div>
   )
@@ -103,12 +103,10 @@ function Skills() {
   return (
     <section id="skills" className="sk-section">
 
-      {/* Background accent */}
       <div className="sk-bg-orb" aria-hidden="true" />
 
       <div className="sk-container">
 
-        {/* Header */}
         <div className="sk-header">
           <p ref={headingRef} className="sk-eyebrow reveal">
             <span className="sk-eyebrow-line" aria-hidden="true" />
@@ -122,7 +120,6 @@ function Skills() {
           </p>
         </div>
 
-        {/* Tabs */}
         <div ref={tabsRef} className="sk-tabs reveal" style={{ transitionDelay: '0.15s' }}>
           {tabs.map(tab => {
             const cat = skillCategories.find(c => c.label === tab)
@@ -147,7 +144,6 @@ function Skills() {
           })}
         </div>
 
-        {/* Grid */}
         <div className="sk-grid">
           {visibleSkills.map((skill, i) => (
             <SkillCard
@@ -166,7 +162,6 @@ function Skills() {
 
 const styles = document.createElement('style')
 styles.textContent = `
-  /* ── Section ── */
   .sk-section {
     padding: 110px 60px;
     background: transparent;
@@ -194,7 +189,6 @@ styles.textContent = `
     z-index: 1;
   }
 
-  /* ── Header ── */
   .sk-header {
     text-align: center;
     margin-bottom: 52px;
@@ -230,7 +224,6 @@ styles.textContent = `
     margin-bottom: 16px;
   }
 
-  /* Outline word — consistent with Hero & About signature */
   .sk-heading-outline {
     -webkit-text-stroke: 2px #7b68ee;
     color: transparent;
@@ -243,7 +236,6 @@ styles.textContent = `
     letter-spacing: 0.5px;
   }
 
-  /* ── Tabs ── */
   .sk-tabs {
     display: flex;
     justify-content: center;
@@ -283,7 +275,6 @@ styles.textContent = `
                 0 4px 20px rgba(123,104,238,0.25);
   }
 
-  /* Fallback for active — ensure it always looks good */
   .sk-tab.active {
     border-color: var(--tab-color, #7b68ee);
     box-shadow: 0 4px 20px rgba(123,104,238,0.2);
@@ -296,14 +287,12 @@ styles.textContent = `
     flex-shrink: 0;
   }
 
-  /* ── Grid ── */
   .sk-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
     gap: 18px;
   }
 
-  /* ── Card ── */
   .sk-card {
     position: relative;
     display: flex;
@@ -334,7 +323,6 @@ styles.textContent = `
       0 0 0 1px color-mix(in srgb, var(--accent, #7b68ee) 30%, transparent) inset;
   }
 
-  /* Glow blob behind logo */
   .sk-card-glow {
     position: absolute;
     top: -20px;
@@ -354,7 +342,6 @@ styles.textContent = `
     opacity: 1;
   }
 
-  /* Logo wrapper */
   .sk-logo-wrap {
     width: 58px;
     height: 58px;
@@ -380,7 +367,6 @@ styles.textContent = `
     display: block;
   }
 
-  /* Name */
   .sk-name {
     font-size: 0.82rem;
     font-weight: 600;
@@ -394,7 +380,6 @@ styles.textContent = `
     color: #ffffff;
   }
 
-  /* Bottom accent bar */
   .sk-bar {
     position: absolute;
     bottom: 0;
@@ -414,7 +399,6 @@ styles.textContent = `
     transform: scaleX(1);
   }
 
-  /* ── Responsive ── */
   @media (max-width: 1024px) {
     .sk-section { padding: 90px 40px; }
   }
