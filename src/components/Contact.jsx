@@ -108,7 +108,6 @@ function Contact() {
   return (
     <section id="contact" className="ct-section">
 
-      {/* Background orb */}
       <div className="ct-bg-orb" aria-hidden="true" />
 
       <div className="ct-container">
@@ -133,13 +132,11 @@ function Contact() {
           {/* LEFT — info */}
           <div ref={leftRef} className="ct-left reveal reveal-left" style={{ transitionDelay: '0.1s' }}>
 
-            {/* Availability tag */}
             <div className="ct-available">
               <span className="ct-available-dot" aria-hidden="true" />
               Available for freelance &amp; full-time roles
             </div>
 
-            {/* Info card */}
             <div className="ct-info-card">
               <h3 className="ct-info-title">Connect with me</h3>
               <p className="ct-info-sub">Feel free to reach out through any of these platforms</p>
@@ -151,12 +148,11 @@ function Contact() {
                 </div>
                 <div className="ct-contact-item">
                   <span className="ct-contact-icon"><FiMail size={15} /></span>
-                  <a href="mailto:bkirabo853@gmail.com" className="ct-contact-link">bkirabo853@gmail.com</a>
+                  <a href="mailto:kiraborebecca04@gmail.com" className="ct-contact-link">kiraborebecca04@gmail.com</a>
                 </div>
               </div>
             </div>
 
-            {/* Social links */}
             <div className="ct-socials">
               {socials.map((s, i) => (
                 <a
@@ -183,35 +179,54 @@ function Contact() {
           <div ref={rightRef} className="ct-right reveal reveal-right" style={{ transitionDelay: '0.2s' }}>
             <form className="ct-form" onSubmit={handleSubmit} noValidate>
 
-              {/* Name + Email row */}
-              <div className="ct-form-row">
-                {['name', 'email'].map(field => (
-                  <div key={field} className="ct-field">
-                    <label className="ct-label">
-                      {field === 'name' ? <FiUser size={14} /> : <FiMail size={14} />}
-                      {field === 'name' ? 'Your Name' : 'Your Email'}
-                      <span className="ct-required" aria-hidden="true">*</span>
-                    </label>
-                    <input
-                      type={field === 'email' ? 'email' : 'text'}
-                      name={field}
-                      value={formData[field]}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      placeholder={field === 'name' ? 'Rebecca Kirabo' : 'you@example.com'}
-                      className={`ct-input ${fieldState(field)}`}
-                      disabled={status === 'sending' || status === 'success'}
-                      autoComplete={field === 'email' ? 'email' : 'name'}
-                    />
-                    {touched[field] && errors[field] && (
-                      <p className="ct-field-error"><FiAlertCircle size={11} /> {errors[field]}</p>
-                    )}
-                  </div>
-                ))}
+              {/* Name field */}
+              <div className="ct-field">
+                <label className="ct-label">
+                  <FiUser size={14} />
+                  Your Name
+                  <span className="ct-required" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Rebecca Kirabo"
+                  className={`ct-input ${fieldState('name')}`}
+                  disabled={status === 'sending' || status === 'success'}
+                  autoComplete="name"
+                />
+                {touched.name && errors.name && (
+                  <p className="ct-field-error"><FiAlertCircle size={11} /> {errors.name}</p>
+                )}
+              </div>
+
+              {/* Email field */}
+              <div className="ct-field">
+                <label className="ct-label">
+                  <FiMail size={14} />
+                  Your Email
+                  <span className="ct-required" aria-hidden="true">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="you@example.com"
+                  className={`ct-input ${fieldState('email')}`}
+                  disabled={status === 'sending' || status === 'success'}
+                  autoComplete="email"
+                />
+                {touched.email && errors.email && (
+                  <p className="ct-field-error"><FiAlertCircle size={11} /> {errors.email}</p>
+                )}
               </div>
 
               {/* Message */}
-              <div className="ct-field">
+              <div className="ct-field-grow">
                 <label className="ct-label">
                   <FiMessageSquare size={14} />
                   Your Message
@@ -223,7 +238,6 @@ function Contact() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Tell me about your project or just say hi…"
-                  rows="5"
                   className={`ct-textarea ${fieldState('message')}`}
                   disabled={status === 'sending' || status === 'success'}
                 />
@@ -273,7 +287,6 @@ function Contact() {
 
 const styles = document.createElement('style')
 styles.textContent = `
-  /* ── Section ── */
   .ct-section {
     padding: 110px 60px;
     background: transparent;
@@ -299,7 +312,6 @@ styles.textContent = `
     z-index: 1;
   }
 
-  /* ── Header ── */
   .ct-header {
     text-align: center;
     margin-bottom: 64px;
@@ -334,7 +346,6 @@ styles.textContent = `
     margin-bottom: 16px;
   }
 
-  /* Outline signature — consistent across all sections */
   .ct-heading-outline {
     -webkit-text-stroke: 2px #7b68ee;
     color: transparent;
@@ -347,24 +358,21 @@ styles.textContent = `
     letter-spacing: 0.5px;
   }
 
-  /* ── Two columns ── */
+  /* Two columns — equal height */
   .ct-cols {
     display: grid;
-    grid-template-columns: 360px 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 48px;
-    align-items: start;
+    align-items: stretch;
   }
 
-  /* ═══════════════════
-     LEFT COLUMN
-  ═══════════════════ */
+  /* LEFT COLUMN */
   .ct-left {
     display: flex;
     flex-direction: column;
     gap: 20px;
   }
 
-  /* Availability tag */
   .ct-available {
     display: inline-flex;
     align-items: center;
@@ -394,7 +402,6 @@ styles.textContent = `
     50%       { opacity: 0.5; box-shadow: 0 0 12px rgba(74,222,128,0.4); }
   }
 
-  /* Info card */
   .ct-info-card {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.09);
@@ -447,11 +454,11 @@ styles.textContent = `
 
   .ct-contact-link:hover { color: #b8a8ff; }
 
-  /* Social links */
   .ct-socials {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex: 1;
   }
 
   .ct-social-link {
@@ -465,6 +472,7 @@ styles.textContent = `
     color: white;
     text-decoration: none;
     transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+    flex: 1;
   }
 
   .ct-social-link:hover {
@@ -519,26 +527,35 @@ styles.textContent = `
     transform: translateX(3px);
   }
 
-  /* ═══════════════════
-     RIGHT COLUMN (form)
-  ═══════════════════ */
+  /* RIGHT COLUMN */
   .ct-right {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.09);
     border-radius: 20px;
     padding: 32px;
+    display: flex;
+    flex-direction: column;
   }
 
   .ct-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    flex: 1;
   }
 
-  .ct-form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+  /* Message field grows to fill remaining space */
+  .ct-field-grow {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .ct-field-grow .ct-textarea {
+    flex: 1;
+    resize: none;
+    min-height: 0;
   }
 
   .ct-field {
@@ -595,8 +612,6 @@ styles.textContent = `
   .ct-textarea:disabled { opacity: 0.55; cursor: not-allowed; }
 
   .ct-textarea {
-    resize: vertical;
-    min-height: 110px;
     line-height: 1.6;
   }
 
@@ -616,7 +631,6 @@ styles.textContent = `
     margin-top: 2px;
   }
 
-  /* Status banners */
   .ct-banner {
     display: flex;
     align-items: center;
@@ -639,7 +653,6 @@ styles.textContent = `
     color: #f87171;
   }
 
-  /* Submit button */
   .ct-submit {
     display: flex;
     align-items: center;
@@ -658,6 +671,7 @@ styles.textContent = `
     transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
     box-shadow: 0 4px 20px rgba(123,104,238,0.3);
     font-family: inherit;
+    margin-top: auto;
   }
 
   .ct-submit:hover:not(:disabled) {
@@ -672,7 +686,6 @@ styles.textContent = `
     transform: none;
   }
 
-  /* Spinner */
   .ct-spinner {
     width: 15px; height: 15px;
     border: 2px solid rgba(255,255,255,0.3);
@@ -685,7 +698,6 @@ styles.textContent = `
 
   @keyframes ct-spin { to { transform: rotate(360deg); } }
 
-  /* ── Responsive ── */
   @media (max-width: 900px) {
     .ct-section { padding: 90px 40px; }
     .ct-cols { grid-template-columns: 1fr; gap: 32px; }
@@ -696,7 +708,6 @@ styles.textContent = `
   @media (max-width: 600px) {
     .ct-section { padding: 70px 20px; }
     .ct-heading { font-size: 2.6rem; letter-spacing: -1px; }
-    .ct-form-row { grid-template-columns: 1fr; }
     .ct-right { padding: 22px 18px; }
   }
 
