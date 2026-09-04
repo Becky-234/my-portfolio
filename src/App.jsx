@@ -17,13 +17,8 @@ function App() {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true)
-      } else {
-        setScrolled(false)
-      }
+      setScrolled(window.scrollY > 50)
     }
-
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -32,42 +27,38 @@ function App() {
     if (showWelcome) return
 
     let activeStars = []
-    
+
     const createShootingStar = () => {
       if (activeStars.length > 5) return
-      
+
       const star = document.createElement('div')
       star.innerHTML = '⭐'
-      star.style.position = 'fixed'
-      star.style.left = Math.random() * window.innerWidth + 'px'
-      star.style.top = '-20px'
-      star.style.fontSize = '16px'
-      star.style.opacity = '0.6'
-      star.style.pointerEvents = 'none'
-      star.style.zIndex = '9999'
-      star.style.willChange = 'transform'
-      star.style.animation = `shoot ${Math.random() * 2 + 2}s linear forwards`
-      
+      star.style.cssText = `
+        position: fixed;
+        left: ${Math.random() * window.innerWidth}px;
+        top: -20px;
+        font-size: 16px;
+        opacity: 0.6;
+        pointer-events: none;
+        z-index: 9999;
+        will-change: transform;
+        animation: shoot ${Math.random() * 2 + 2}s linear forwards;
+      `
+
       document.body.appendChild(star)
       activeStars.push(star)
-      
+
       setTimeout(() => {
-        if (star && star.remove) {
-          star.remove()
-          activeStars = activeStars.filter(s => s !== star)
-        }
+        star?.remove()
+        activeStars = activeStars.filter(s => s !== star)
       }, 3000)
     }
-    
+
     shootingStarInterval.current = setInterval(createShootingStar, 8000)
-    
+
     return () => {
-      if (shootingStarInterval.current) {
-        clearInterval(shootingStarInterval.current)
-      }
-      activeStars.forEach(star => {
-        if (star && star.remove) star.remove()
-      })
+      clearInterval(shootingStarInterval.current)
+      activeStars.forEach(s => s?.remove())
       activeStars = []
     }
   }, [showWelcome])
@@ -75,20 +66,19 @@ function App() {
   return (
     <div className="app galaxy-container">
       {showWelcome && <Welcome setShowWelcome={setShowWelcome} />}
-      
-      <div className="stars"></div>
-      <div className="twinkling-stars"></div>
-      <div className="nebula"></div>
-      
+
+      <div className="stars" />
+      <div className="twinkling-stars" />
+      <div className="nebula" />
+
       <Header scrolled={scrolled} />
       <main className="content-wrapper">
-        {/* ENSURE ALL SECTIONS HAVE IDs */}
-        <section id="hero" style={{ scrollMarginTop: '80px' }}><Hero /></section>
-        <section id="about" style={{ scrollMarginTop: '80px' }}><About /></section>
-        <section id="skills" style={{ scrollMarginTop: '80px' }}><Skills /></section>
-        <section id="projects" style={{ scrollMarginTop: '80px' }}><Projects /></section>
-        <section id="certifications" style={{ scrollMarginTop: '80px' }}><Certifications /></section>
-        <section id="contact" style={{ scrollMarginTop: '80px' }}><Contact /></section>
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Certifications />
+        <Contact />
       </main>
       <Footer />
     </div>
