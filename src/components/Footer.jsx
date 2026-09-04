@@ -78,12 +78,6 @@ function Footer() {
 
 const styles = document.createElement('style')
 styles.textContent = `
-  html, body, #root {
-    background: #0a0a2a;
-    min-height: 100%;
-    overflow-x: hidden;
-  }
-
   .footer {
     background: rgba(10, 10, 42, 0.95);
     backdrop-filter: blur(15px);
