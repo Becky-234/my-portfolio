@@ -98,7 +98,7 @@ function Hero() {
           <div className="hero-ctas">
             <a href="#contact" className="hero-cta-primary">Get In Touch</a>
             <a
-              href="https://drive.google.com/drive/folders/1sSEJLoKRtXU1tDqc-cjwCZVEEgEKzv88"
+              href="https://drive.google.com/file/d/1h_i0oDldRjN6-1lwooGqRdcDv0tddoDF/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               className="hero-cta-outline"
