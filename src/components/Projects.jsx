@@ -8,9 +8,9 @@ import ekiBuyer from '../assets/eki-buyer.png'
 import ekiSeller from '../assets/eki-seller.png'
 import mayondo from '../assets/mayondo.png'
 import weather from '../assets/weather.png'
-import voguevalt from '../assets/voguevalt.png'
 import ssebbale from '../assets/ssebbale.png'
 import activeinteriors from '../assets/active-interiors.png'
+import handsofhope from '../assets/handsofhope.png'
 import mamacare from '../assets/mama-care.png'
 
 const projects = [
@@ -105,7 +105,20 @@ const projects = [
     deployLabel: 'Vercel',
     inProgress: false
   },
-   {
+  {
+    title: 'Hands Of Hope Website',
+    description: 'A website for a charitable organization focused on providing hope and support to underprivileged communities.',
+    link: 'https://sites.halvektech.com/',
+    github: 'https://github.com/Halvek-Tech/handsofhope.org',
+    accentColor: '#003e82',
+    category: 'Website',
+    image: handsofhope,
+    tags: ['HTML5', 'CSS3', 'JavaScript', 'PHP', 'Responsive'],
+    deployedWith: <FiGithub size={14} />,
+    deployLabel: 'GitHub',
+    inProgress: true
+  },
+  {
     title: 'MamaCare - AI',
     description: 'A maternal health companion that reaches pregnant women in rural Uganda through the channels they already have: a basic phone and a SIM card.',
     link: '',
@@ -118,19 +131,6 @@ const projects = [
     deployLabel: '',
     inProgress: true
   },
-  {
-    title: 'VogueValt Fashion Website',
-    description: 'Modern e-commerce fashion website with responsive design, product browsing, and a clean shopping interface. A stylish showcase of frontend skills with a focus on UI polish.',
-    link: 'https://github.com/Becky-234/my-first-website',
-    github: 'https://github.com/Becky-234/my-first-website',
-    accentColor: '#E75480',
-    category: 'Website',
-    image: voguevalt,
-    tags: ['HTML5', 'CSS3', 'Responsive'],
-    deployedWith: <FiGithub size={14} />,
-    deployLabel: 'GitHub',
-    inProgress: false
-  }
 ]
 
 const ALL_TABS = ['All', 'Web App', 'Mobile App', 'Website']
