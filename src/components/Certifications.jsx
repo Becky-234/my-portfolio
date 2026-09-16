@@ -4,6 +4,16 @@ import { useScrollReveal } from '../hooks/useScrollReveal'
 
 const certifications = [
   {
+    degree: 'Certificate in Project Management',
+    institution: 'TRINYX',
+    location: 'Remote',
+    period: 'September 2026',
+    status: 'Completed',
+    description: 'Participated in an online 21 days project management training program, gaining practical knowledge and skills in project planning, execution, and monitoring. The program covered essential project management methodologies, tools, and techniques to effectively manage projects from initiation to closure.',
+    highlights: ['Project Planning', 'Project Execution', 'Project Monitoring', 'Stakeholder Communication', 'Risk Management'],
+    color: '#800080'
+  },
+  {
     degree: 'Emotional Intelligence in Teamwork',
     institution: 'UNIVERSITY OF THE PEOPLE',
     location: 'Remote',
