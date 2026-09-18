@@ -10,7 +10,7 @@ import mayondo from '../assets/mayondo.png'
 import weather from '../assets/weather.png'
 import ssebbale from '../assets/ssebbale.png'
 import activeinteriors from '../assets/active-interiors.png'
-import handsofhope from '../assets/handsofhope.png'
+import handsofhope from '../assets/handsOfHope.png'
 import mamacare from '../assets/mama-care.png'
 
 const projects = [
