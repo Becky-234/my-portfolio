@@ -12,6 +12,7 @@ import ssebbale from '../assets/ssebbale.png'
 import activeinteriors from '../assets/active-interiors.png'
 import handsofhope from '../assets/handsOfHope.png'
 import mamacare from '../assets/mama-care.png'
+import churchPledge from '../assets/church-pledge.png'
 
 const projects = [
   {
@@ -129,6 +130,19 @@ const projects = [
     tags: ['React', 'TypeScript', 'Next.js'],
     deployedWith: null,
     deployLabel: '',
+    inProgress: true
+  },
+  {
+    title: 'Church Pledge Management System',
+    description: 'A system for managing pledges and contributions for a local church.',
+    link: 'https://church-pledge-web.onrender.com',
+    github: 'https://github.com/Becky-234/Church-Pledge-System',
+    accentColor: '#db4d2d',
+    category: 'Web App',
+    image: churchPledge,
+    tags: ['React', 'JavaScript', 'Node.js'],
+    deployedWith: null,
+    deployLabel: 'Render',
     inProgress: true
   },
 ]
