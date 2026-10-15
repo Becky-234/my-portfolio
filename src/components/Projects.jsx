@@ -109,7 +109,7 @@ const projects = [
   {
     title: 'Hands Of Hope Website',
     description: 'A website for a charitable organization focused on providing hope and support to underprivileged communities.',
-    link: 'https://sites.halvektech.com/',
+    link: 'https://handsofhopeimpact.org/',
     github: 'https://github.com/Halvek-Tech/handsofhope.org',
     accentColor: '#003e82',
     category: 'Website',
