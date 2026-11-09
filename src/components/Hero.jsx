@@ -255,7 +255,6 @@ styles.textContent = `
       0 32px 80px rgba(0,0,0,0.55);
     z-index: 2;
     flex-shrink: 0;
-    animation: floatCard 6s ease-in-out infinite;
     transition: box-shadow 0.4s ease;
   }
 
@@ -265,11 +264,6 @@ styles.textContent = `
       0 0 0 10px rgba(123,104,238,0.07),
       0 40px 90px rgba(0,0,0,0.65),
       0 0 60px rgba(123,104,238,0.2);
-  }
-
-  @keyframes floatCard {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-10px); }
   }
 
   .hero-photo {
@@ -320,24 +314,16 @@ styles.textContent = `
     box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.07);
     white-space: nowrap;
     z-index: 5;
-    animation: floatBadge 5s ease-in-out infinite;
   }
 
   .hero-badge--projects {
     bottom: 80px;
     left: -10px;
-    animation-delay: -1s;
   }
 
   .hero-badge--certs {
     top: 60px;
     right: -10px;
-    animation-delay: -2.8s;
-  }
-
-  @keyframes floatBadge {
-    0%, 100% { transform: translateY(0); }
-    50%       { transform: translateY(-7px); }
   }
 
   .hb-icon  { font-size: 1.15rem; color: #b8a8ff; flex-shrink: 0; }
@@ -577,7 +563,7 @@ styles.textContent = `
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero-photo-wrap, .hero-badge, .hero-orb { animation: none !important; }
+    .hero-orb { animation: none !important; }
   }
 `
 document.head.appendChild(styles)
